@@ -1,10 +1,10 @@
 ---
-title: "Gemini AI Integration in M-TPM Portal"
+title: "Gemini AI Integration: Setup and Configuration Guide"
 sidebarTitle: "Gemini Integration"
 description: "Understand how M-TPM Portal uses the Google Gemini API for visual OCR analysis and how to configure your API key for AI-powered features."
 ---
 
-M-TPM Portal integrates directly with the Google Gemini API to power its AI-driven features, most notably OCR label auditing. All AI processing happens server-side via Gemini — your device captures the image, the app sends it to Google's API with a structured prompt, and the response is parsed and displayed as a human-readable audit result. You don't need to write any code, train any models, or manage any infrastructure. All you need is your own Gemini API key and a few minutes of setup to unlock the full suite of AI capabilities in M-TPM Portal.
+M-TPM Portal integrates directly with the Google Gemini API to power its AI-driven features, most notably OCR label auditing — a core capability for exploring maintenance quality and identifying label discrepancies before they become costly issues. All AI processing happens server-side via Gemini — your device captures the image, the app sends it to Google's API with a structured prompt, and the response is parsed and displayed as a human-readable audit result. You don't need to write any code, train any models, or manage any infrastructure. All you need is your own Gemini API key and a few minutes of setup to unlock the full suite of AI capabilities in M-TPM Portal.
 
 ## What Gemini Is Used For
 
@@ -36,7 +36,7 @@ You don't need to interact with the Gemini API directly — M-TPM Portal handles
     - An Android device running M-TPM Portal
     - A Google account with access to Google AI Studio
     - A valid Gemini API key (free tier available)
-    - The API key entered in your app's `.env` configuration
+    - The `GEMINI_API_KEY` entered in your app's API Key settings
     - A stable internet connection during audits
   </Card>
 </CardGroup>
@@ -55,7 +55,7 @@ To obtain a Gemini API key:
 Once you have your key, follow the [API Key Configuration](/configuration/api-key) guide to add it to your M-TPM Portal installation.
 
 <Note>
-  Your Gemini API key is stored in your app's `.env` configuration file under the variable `GEMINI_API_KEY`. Never commit this file to a public repository or share the key with unauthorised users. If a key is compromised, revoke it immediately in Google AI Studio and generate a new one.
+  Your Gemini API key is stored by M-TPM Portal under the environment variable `GEMINI_API_KEY`. Never share the key with unauthorised users or expose it in public-facing files. If a key is compromised, revoke it immediately in Google AI Studio and generate a new one.
 </Note>
 
 ## Data Privacy

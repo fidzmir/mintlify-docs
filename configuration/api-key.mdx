@@ -1,7 +1,7 @@
 ---
-title: "Set Up Your Gemini API Key in M-TPM Portal"
+title: "Set Up Your Gemini API Key to Enable AI in M-TPM Portal"
 sidebarTitle: "API Key"
-description: "Get a Google Gemini API key and configure it in M-TPM Portal to unlock AI-powered OCR label auditing and visual inspection features."
+description: "Generate a Google Gemini API key and add it to M-TPM Portal to activate OCR label auditing, visual inspection, and all AI-powered features."
 ---
 
 The Gemini API key is the single credential that unlocks every AI-powered capability in M-TPM Portal. Without a valid key, OCR label auditing, visual inspection, and any other feature that communicates with Google's Gemini API will be disabled — the rest of the app (maintenance logs, asset tracking, tag management) continues to work normally. This page walks you through obtaining a key from Google AI Studio and wiring it into your project so the app can use it at build time.
@@ -25,29 +25,23 @@ You need a free Google account to generate a Gemini API key. The key is created 
     In the **root directory** of your M-TPM Portal project, create a file named `.env` if one does not already exist. If the file exists, open it in any text editor.
   </Step>
   <Step title="Add your API key">
-    Add the following line to the file, replacing the placeholder with your actual key:
+    Add the following line to the file, replacing `MY_GEMINI_API_KEY` with your actual key:
 
     ```dotenv
-    GEMINI_API_KEY=AIzaSy...your_key...
+    GEMINI_API_KEY=MY_GEMINI_API_KEY
     ```
 
-    The file should look like this when complete:
+    Your completed `.env` file should look exactly like this (with your real key in place of the placeholder):
 
     ```dotenv
-    # Required for AI-powered OCR label auditing
-    GEMINI_API_KEY=AIzaSy...your_key...
+    GEMINI_API_KEY=MY_GEMINI_API_KEY
     ```
   </Step>
   <Step title="Save the file">
     Save `.env`. Make sure there are no leading or trailing spaces around the key value, and that the filename is exactly `.env` (not `.env.txt` or `env`).
   </Step>
-  <Step title="Re-run or rebuild the app">
-    The `.env` file is read at build time. Restart your development server or trigger a fresh build so the new value is picked up:
-
-    ```bash
-    # Example: rebuild and run on a connected Android device
-    npx react-native run-android
-    ```
+  <Step title="Rebuild the app in Android Studio">
+    The `.env` file is read at build time. Open the project in **Android Studio** and trigger a fresh build so the new value is picked up — use **Build → Rebuild Project** from the menu bar, or run the app directly on a connected Android device or emulator via the **Run** button.
 
     After the build completes, AI auditing features will be active.
   </Step>
@@ -77,14 +71,6 @@ You need a free Google account to generate a Gemini API key. The key is created 
 <Tip>
   Keep an eye on your Gemini API consumption directly in [Google AI Studio](https://aistudio.google.com) or the [Google Cloud Console](https://console.cloud.google.com). Both dashboards show request counts, error rates, and quota usage in real time. Setting up a billing alert in Google Cloud is a good idea before rolling out AI auditing to a large team.
 </Tip>
-
----
-
-## Running Through Google AI Studio
-
-<Note>
-  If you are running M-TPM Portal directly through the Google AI Studio app platform, AI Studio can inject the `GEMINI_API_KEY` environment variable automatically at runtime using the project's linked API key. In this case you do not need to create a `.env` file manually — the key is provided by the platform environment.
-</Note>
 
 ---
 

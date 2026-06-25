@@ -1,7 +1,7 @@
 ---
-title: "Fix Common M-TPM Portal Issues"
+title: "How to Fix the Most Common M-TPM Portal App Problems"
 sidebarTitle: "Common Issues"
-description: "Troubleshooting guide for the most common M-TPM Portal problems — camera errors, AI audit failures, sync issues, and installation problems."
+description: "Troubleshooting guide for common M-TPM Portal problems — camera and scanner errors, AI audit failures, storage issues, and app stability fixes."
 ---
 
 This page covers the most frequently encountered issues in M-TPM Portal and how to resolve them quickly. Work through the relevant section below — each issue includes its root cause and a clear, step-by-step fix. If your problem isn't listed here, check the [FAQ](/troubleshooting/faq) or file a bug report through the app's settings menu.
@@ -44,21 +44,18 @@ This page covers the most frequently encountered issues in M-TPM Portal and how 
 
 <AccordionGroup>
   <Accordion title='AI Audit fails with "API key invalid" error'>
-    **Cause:** The `GEMINI_API_KEY` in your `.env` file is missing, incorrectly formatted, or has been revoked.
+    **Cause:** The Gemini API key configured for your installation is missing, incorrectly entered, or has been revoked by Google.
 
     **Fix:**
-    1. Open your project's **`.env`** file (located in the repository root).
-    2. Confirm that the following line is present and contains a valid key:
-       ```
-       GEMINI_API_KEY=your_actual_api_key_here
-       ```
-    3. Verify the key is active by signing in at [aistudio.google.com](https://aistudio.google.com) and checking **API Keys** under your project settings.
-    4. If the key has expired or been deleted, generate a new one and paste it into `.env`.
-    5. **Rebuild and reinstall the app** so the new key is bundled into the build.
+    1. Open M-TPM Portal and go to **Settings → AI & API**.
+    2. Check that a Gemini API key is entered. If the field is blank, enter a valid key.
+    3. Verify the key is still active by signing in at [aistudio.google.com](https://aistudio.google.com) and checking **API Keys** under your project settings.
+    4. If the key has expired or been deleted, generate a new one in Google AI Studio and enter it in the app settings.
+    5. Tap **Save** and retry the AI Audit.
 
-    <Warning>
-      Never commit your `.env` file to version control. Ensure `.env` is listed in your `.gitignore` to prevent accidental API key exposure.
-    </Warning>
+    <Note>
+      If your organisation centrally manages the API key, contact your system administrator to request a key update — do not attempt to modify app configuration files directly.
+    </Note>
   </Accordion>
 
   <Accordion title='AI Audit fails with "Network error"'>
@@ -126,26 +123,4 @@ This page covers the most frequently encountered issues in M-TPM Portal and how 
   </Accordion>
 </AccordionGroup>
 
-## Developer & Build Issues
 
-<AccordionGroup>
-  <Accordion title='Build fails with "signingConfig" error'>
-    **Cause:** The `signingConfig` line in `app/build.gradle.kts` references a signing configuration named `"debugConfig"` that is defined only in CI/CD environments. When building locally without that configuration present, Gradle throws a resolution error.
-
-    **Fix:**
-    1. Open **`app/build.gradle.kts`** in your editor.
-    2. Locate the following line inside the `debug` build type block:
-       ```kotlin
-       signingConfig = signingConfigs.getByName("debugConfig")
-       ```
-    3. **Remove or comment out that line** for your local debug build:
-       ```kotlin
-       // signingConfig = signingConfigs.getByName("debugConfig")
-       ```
-    4. Save the file and re-run your Gradle build.
-
-    <Note>
-      This line is intentional for CI/CD pipelines where the `debugConfig` signing keystore is injected as a secret. Do not commit the removal of this line back to your main branch — keep it as a local-only change.
-    </Note>
-  </Accordion>
-</AccordionGroup>

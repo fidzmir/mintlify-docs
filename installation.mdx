@@ -1,7 +1,7 @@
 ---
-title: "Install M-TPM Portal on Android"
+title: "M-TPM Portal Installation: Android Studio Step-by-Step"
 sidebarTitle: "Installation"
-description: "Step-by-step instructions to install M-TPM Portal on an Android device or emulator using Android Studio."
+description: "Install M-TPM Portal on your Android device or emulator: set up Android Studio, configure your Gemini API key, and launch the app for the first time."
 ---
 
 This page covers the full installation process for M-TPM Portal, from cloning the repository to running the app on a physical device or emulator. If you are setting up M-TPM Portal for the first time, work through each step in order. The process is straightforward for anyone familiar with Android Studio, and the notes throughout this guide highlight the most common setup pitfalls to help you avoid them.
@@ -53,10 +53,10 @@ Your development machine can be running Windows, macOS, or Linux — M-TPM Porta
     M-TPM Portal reads your Gemini API key from a `.env` file at the root of the project. Create this file now by adding a new file named `.env` in the project root directory (the same directory as `settings.gradle.kts`):
 
     ```env
-    GEMINI_API_KEY=your_key_here
+    GEMINI_API_KEY=MY_GEMINI_API_KEY
     ```
 
-    Replace `your_key_here` with your actual Gemini API key. The `.env` file is included in `.gitignore` by default, so it will not be accidentally committed to source control.
+    Replace `MY_GEMINI_API_KEY` with your actual Gemini API key. The `.env` file is included in `.gitignore` by default, so it will not be accidentally committed to source control.
 
     <Note>
       If you do not yet have a Gemini API key, you can generate one for free at [Google AI Studio](https://aistudio.google.com/app/apikey). See [API Key Setup](/configuration/api-key) for full details on obtaining and configuring your key.
@@ -64,7 +64,7 @@ Your development machine can be running Windows, macOS, or Linux — M-TPM Porta
   </Step>
 
   <Step title="Edit app/build.gradle.kts to Enable Local Builds">
-    The repository's `app/build.gradle.kts` file contains a signing configuration reference that is specific to the project's internal CI/CD pipeline and is **not** included in the public source. You must remove this line before Android Studio can build the app successfully.
+    The repository's `app/build.gradle.kts` file contains a signing configuration reference that is **not** available in a standard local setup. You must remove this line before Android Studio can build the app successfully.
 
     Open `app/build.gradle.kts` in the editor and locate the following line inside the `buildTypes` block:
 

@@ -1,7 +1,7 @@
 ---
-title: "Android Permissions Required by M-TPM Portal"
+title: "Android Permissions for M-TPM Portal: Complete Reference"
 sidebarTitle: "Permissions"
-description: "Review the Android permissions M-TPM Portal requests, why each is needed, and how to grant or revoke them from your device settings."
+description: "Learn which Android permissions M-TPM Portal needs, what each one enables, and how to grant or revoke them on any Android device or version."
 ---
 
 M-TPM Portal requests only the permissions it genuinely needs to deliver its core functionality — no broad or unnecessary access is ever asked for. Rather than requesting everything at install time, the app follows Android best practice by asking for each permission **at the moment it is first needed**, so you always know exactly why a permission is being requested. This page describes each permission, what feature it supports, and how to manage it on your device.
@@ -16,7 +16,7 @@ The table below summarises every permission M-TPM Portal may request, together w
 |---|---|---|
 | **Camera** | Required (for scanning & AI features) | Scanning asset barcodes and QR codes; capturing images for OCR label auditing and visual inspection via the Gemini API. |
 | **Storage / Media** | Required (for reports & attachments) | Saving exported maintenance reports to device storage; attaching photos from your gallery to maintenance records. |
-| **Internet** | Required (for AI auditing) | Sending OCR audit requests to the Gemini API and communicating with any configured backend services. |
+| **Internet** | Required (for AI auditing) | Sending OCR audit requests to the Gemini API for AI-powered label inspection. |
 | **Notifications** | Optional | Displaying push notification reminders for scheduled and overdue maintenance tasks. |
 
 ### Camera
@@ -35,10 +35,7 @@ The Storage permission (or granular media permissions on Android 13+) allows M-T
 
 ### Internet
 
-The Internet permission is a standard Android permission that is granted automatically (no runtime prompt). It is needed for:
-
-- Calling the **Gemini API** for all AI-powered auditing operations.
-- Connecting to any self-hosted backend service configured via `BASE_API_URL` in your `.env` file.
+The Internet permission is a standard Android permission that is granted automatically (no runtime prompt). It is needed for calling the **Gemini API** for all AI-powered auditing operations.
 
 ### Notifications
 

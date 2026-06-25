@@ -1,32 +1,30 @@
 ---
-title: "Configure M-TPM Portal for Your Environment"
+title: "Configure M-TPM Portal: Environment Variables & Settings"
 sidebarTitle: "Setup"
-description: "Set up M-TPM Portal with the right configuration for your team — including environment variables, app permissions, and display preferences."
+description: "Configure M-TPM Portal with your Gemini API key, display preferences, notification reminders, and AI auditing controls for your team."
 ---
 
-M-TPM Portal is configured at two distinct levels: **build-time configuration** via a `.env` file at the project root, and **in-app settings** accessible from the Dashboard. Build-time configuration controls infrastructure-level values like API keys and service endpoints that must be available before the app runs. In-app settings let individual users personalise their experience — adjusting themes, notification preferences, and AI auditing behaviour — without requiring a rebuild. Understanding both layers ensures your team gets the most out of M-TPM Portal from day one.
+M-TPM Portal is configured at two distinct levels: **build-time configuration** via a `.env` file at the project root, and **in-app settings** accessible from the Dashboard. Build-time configuration controls the API key that must be available before the app runs. In-app settings let individual users personalise their experience — adjusting themes, notification preferences, and AI auditing behaviour — without requiring a rebuild. Understanding both layers ensures your team gets the most out of M-TPM Portal from day one.
 
 ## Build-Time Configuration
 
-Build-time configuration is handled through a `.env` file placed in the **project root directory**. These values are baked into the app at compile time and are not adjustable by end users. You must set them before building or running the application.
+Build-time configuration is handled through a `.env` file placed in the **project root directory**. This value is baked into the app at compile time and is not adjustable by end users. You must set it before building or running the application.
 
 ### The `.env` File
 
-Create a file named `.env` in the root of your M-TPM Portal project. This file is read automatically at build time. The table below describes every supported variable.
+Create a file named `.env` in the root of your M-TPM Portal project. This file is read automatically at build time. The table below describes the supported variable.
 
 | Variable | Required | Description |
 |---|---|---|
 | `GEMINI_API_KEY` | ✅ Yes (for AI features) | Your Google Gemini API key, used for AI-powered OCR label auditing and visual inspection. |
-| `BASE_API_URL` | Optional | The base URL for your backend services, if you are running a self-hosted instance. |
 
 A minimal `.env` file for enabling AI features looks like this:
 
 ```dotenv
-# Required for AI-powered OCR label auditing
-GEMINI_API_KEY=your_api_key_here
+GEMINI_API_KEY=MY_GEMINI_API_KEY
 ```
 
-Replace `your_api_key_here` with the actual key you generate in Google AI Studio. If this value is absent or invalid, AI auditing will be unavailable, but all other app features remain fully functional.
+Replace `MY_GEMINI_API_KEY` with the actual key you generate in Google AI Studio. If this value is absent or invalid, AI auditing will be unavailable, but all other app features remain fully functional.
 
 <Note>
   For step-by-step instructions on obtaining and adding your Gemini API key, see [Set Up Your Gemini API Key](/configuration/api-key). To review what Android permissions the app requires and how to manage them, see [Android Permissions](/configuration/permissions).
