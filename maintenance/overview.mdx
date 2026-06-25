@@ -1,0 +1,87 @@
+---
+title: "Maintenance Management in M-TPM Portal"
+sidebarTitle: "Overview"
+description: "Understand how M-TPM Portal organizes maintenance workflows — from logging events to tracking status and reviewing history across your production floor."
+---
+
+M-TPM Portal brings Total Productive Maintenance principles directly to your Android device, giving your team a structured, mobile-first system for capturing, monitoring, and reviewing maintenance activity across every asset on the production floor. Whether you are a technician recording a corrective repair, a supervisor checking live work-order status, or a plant manager auditing monthly maintenance trends, the app provides a single source of truth that travels with you — no paper forms, no desktop required.
+
+## What is TPM in M-TPM Portal?
+
+Total Productive Maintenance (TPM) is a company-wide strategy that aims to maximise equipment effectiveness by involving every employee — from operators to engineers — in proactive and preventive care of machinery. In the context of M-TPM Portal, TPM is operationalised through three tightly linked activities:
+
+- **Logging** — capturing every maintenance event at the point of work, tied to a specific asset and technician.
+- **Tracking** — monitoring the real-time status of open work orders so that nothing falls through the cracks.
+- **Reviewing** — analysing historical records to identify recurring failures, measure response times, and support compliance audits.
+
+Together these activities help your organisation shift from reactive "fix it when it breaks" maintenance toward a disciplined, data-driven approach that reduces unplanned downtime and extends asset life.
+
+## The Three Phases of a Maintenance Workflow
+
+Every maintenance event in M-TPM Portal moves through a predictable lifecycle. Understanding these phases helps your team know exactly what to do — and where to look — at every stage of a job.
+
+<CardGroup cols={3}>
+  <Card
+    title="Log"
+    icon="pen-to-square"
+    href="/maintenance/log-entry"
+  >
+    Capture a new maintenance event by selecting an asset, choosing an event type, filling in job details, and submitting the record — online or offline.
+  </Card>
+  <Card
+    title="Track"
+    icon="chart-line"
+    href="/maintenance/tracking"
+  >
+    Monitor all active work orders in real time. Filter by asset, status, technician, or date, and update job status directly from the tracking dashboard.
+  </Card>
+  <Card
+    title="Review"
+    icon="clock-rotate-left"
+    href="/maintenance/history"
+  >
+    Search and analyse completed maintenance records. Apply filters, read full job details, and export data as CSV for reporting and compliance.
+  </Card>
+</CardGroup>
+
+## Types of Maintenance Events
+
+M-TPM Portal supports three core event types that align with standard TPM practices. When you create a new record, you will select one of these types to categorise the nature of the work:
+
+| Event Type | When to Use |
+|---|---|
+| **Corrective** | The asset has already failed or is performing below specification and requires immediate repair to restore normal operation. |
+| **Preventive** | Scheduled maintenance carried out at regular intervals (time-based or usage-based) to prevent failure before it occurs. |
+| **Inspection** | A formal check or audit of an asset's condition, often linked to safety regulations or OEM service schedules, with no repair work performed. |
+
+## How Maintenance Records Are Structured
+
+Each maintenance record in M-TPM Portal is a self-contained document that captures everything relevant to a single maintenance event. The core fields are:
+
+- **Asset** — the specific machine, line, or component the event relates to, identified by its registered asset ID or scanned tag.
+- **Event Type** — one of Corrective, Preventive, or Inspection (see above).
+- **Description** — a free-text summary of the work performed or the issue observed.
+- **Start Time** — the date and time the event began, recorded at point of entry.
+- **Estimated Completion** — the target date/time by which the work should be finished.
+- **Status** — the current state of the work order: Pending, In Progress, Completed, or Overdue.
+- **Technician** — the team member responsible for carrying out the work, drawn from your organisation's registered user list.
+- **Notes** *(optional)* — additional context, safety observations, or follow-up actions.
+- **Photo** *(optional)* — an attached image of the asset condition before or after work.
+
+## Navigating to Maintenance
+
+From the M-TPM Portal home dashboard, tap the **Maintenance** tile or select **Maintenance** from the bottom navigation bar. You will land on the Maintenance hub screen, which gives you quick access to all three phases:
+
+- Tap **+ New Record** (top-right floating button) to jump straight to [Log Entry](/maintenance/log-entry).
+- Tap **Active Orders** to open the [Tracking](/maintenance/tracking) dashboard.
+- Tap **History** to browse and export [past records](/maintenance/history).
+
+The app remembers your last-used filter settings, so returning to Tracking or History will restore your previous view automatically.
+
+## Next Steps
+
+Use the links below to dive into each phase of the maintenance workflow:
+
+- [Log a Maintenance Event](/maintenance/log-entry) — step-by-step guide to submitting a new record.
+- [Track Live Maintenance Status](/maintenance/tracking) — how to monitor and update active work orders.
+- [Browse and Export Maintenance History](/maintenance/history) — searching, reading, and exporting past records.

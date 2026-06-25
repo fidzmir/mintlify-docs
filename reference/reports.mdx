@@ -1,0 +1,86 @@
+---
+title: "Reports Screen Reference — M-TPM Portal"
+sidebarTitle: "Reports"
+description: "Reference guide for M-TPM Portal's reporting screen — available report types, filter options, and export formats."
+---
+
+The Reports screen lets you generate, view, and export maintenance summaries directly from your Android device. Whether you need a high-level overview of activity across all assets, a deep dive into a single machine's service history, or compliance evidence for a regulatory audit, the Reports screen gives you the tools to pull that data on demand without leaving M-TPM Portal. All reports are built from records stored on-device and reflect the latest data available at the moment you tap **Generate**.
+
+<Note>
+  Report data is sourced entirely from on-device records. If your device has not recently synced with a backend or shared data store, reports may not reflect changes made by other users or on other devices. Check your sync status in **Settings → Data Sync** before generating reports for compliance or handover purposes.
+</Note>
+
+---
+
+## Available Report Types
+
+<CardGroup cols={2}>
+  <Card title="Maintenance Summary" icon="chart-bar">
+    Aggregates total maintenance events grouped by **type** (`corrective`, `preventive`, `inspection`), **status** (`pending`, `in_progress`, `completed`), and **asset** over a selected date range. Ideal for management reviews and KPI tracking.
+  </Card>
+  <Card title="Asset History" icon="timeline">
+    A full, chronological maintenance history for a single selected asset — every event ever logged against that asset, including descriptions, technician assignments, and completion times. Use this to prepare for major overhauls or asset replacement decisions.
+  </Card>
+  <Card title="Overdue Events" icon="clock">
+    A list of every maintenance event that passed its `estimated_completion` datetime without being marked `completed`. Rows are sorted by how far overdue they are, with the most delayed events at the top.
+  </Card>
+  <Card title="Technician Activity" icon="user-hard-hat">
+    Events grouped by the `technician` field, showing each person's total event count, breakdown by type, and average completion time. Useful for workload balancing and performance reviews.
+  </Card>
+  <Card title="AI Audit Log" icon="robot">
+    A complete history of all OCR label audits performed via the Gemini API integration, including the asset scanned, audit timestamp, raw OCR output, and any discrepancies flagged between the label data and the asset record.
+  </Card>
+</CardGroup>
+
+---
+
+## Filter Controls
+
+Every report type supports a set of filter controls that let you narrow the dataset before generating. Not all filters are applicable to every report type — controls that do not apply to the selected report are automatically grayed out.
+
+| Filter | Description |
+|---|---|
+| **Date Range Picker** | Set a start and end date. Tap either date chip to open a calendar picker. Presets for **Today**, **Last 7 Days**, **Last 30 Days**, and **This Month** are available for quick selection. |
+| **Asset Selector** | Narrow the report to one or more specific assets. Tap the field to search by Asset ID or Asset Name. Required when running the **Asset History** report. |
+| **Event Type Filter** | Show only `corrective`, `preventive`, `inspection`, or any combination of the three. |
+| **Status Filter** | Show only events in a specific state: `pending`, `in_progress`, `completed`, or `overdue`. |
+
+---
+
+## Export Formats
+
+After generating a report, you can export it in two formats via the Android share sheet:
+
+<Tabs>
+  <Tab title="CSV">
+    Exports the report as a comma-separated values file, suitable for opening in Microsoft Excel, Google Sheets, or any spreadsheet application. Each row represents one maintenance event; column headers match field names from the [Maintenance Log Form](/reference/maintenance-form). The `notes` field is excluded from CSV exports by default.
+  </Tab>
+  <Tab title="PDF">
+    Exports the report as a formatted PDF document, including your organization name, report type, applied filters, generation timestamp, and a summary table. PDF exports are suitable for printing, sharing in email, or attaching to compliance documentation. All fields, including `notes`, are included.
+  </Tab>
+</Tabs>
+
+Tapping either export button opens the Android share sheet, where you can save the file to local storage, send it via email or messaging apps, or upload it to a cloud storage provider.
+
+---
+
+## How to Generate a Report
+
+<Steps>
+  <Step title="Select a report type">
+    On the Reports screen, tap the report type you want from the list at the top of the screen. The selected type is highlighted and the relevant filter controls appear below.
+  </Step>
+  <Step title="Set your filters">
+    Use the Date Range Picker to define the time window. Apply the Asset Selector, Event Type Filter, and Status Filter as needed to focus the report on the data you care about.
+  </Step>
+  <Step title="Tap Generate">
+    Tap the **Generate** button at the bottom of the filter panel. M-TPM Portal processes your on-device records and renders the report. For large datasets, a progress indicator is shown — this typically completes in under two seconds.
+  </Step>
+  <Step title="View or export the results">
+    The generated report appears in a scrollable view below the filters. Tap **Export as CSV** or **Export as PDF** to share or save the report. You can also adjust your filters and tap **Generate** again to refresh the report without leaving the screen.
+  </Step>
+</Steps>
+
+<Tip>
+  Set a recurring reminder to export a **Maintenance Summary** report in PDF format at the end of each month and save it to a dedicated compliance folder. Maintaining a monthly paper trail of maintenance activity can significantly simplify regulatory audits and ISO certification reviews.
+</Tip>

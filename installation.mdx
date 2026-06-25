@@ -1,0 +1,110 @@
+---
+title: "Install M-TPM Portal on Android"
+sidebarTitle: "Installation"
+description: "Step-by-step instructions to install M-TPM Portal on an Android device or emulator using Android Studio."
+---
+
+This page covers the full installation process for M-TPM Portal, from cloning the repository to running the app on a physical device or emulator. If you are setting up M-TPM Portal for the first time, work through each step in order. The process is straightforward for anyone familiar with Android Studio, and the notes throughout this guide highlight the most common setup pitfalls to help you avoid them.
+
+## System Requirements
+
+Before you begin, verify that your environment meets the following minimum requirements:
+
+| Requirement | Minimum Version |
+|---|---|
+| Android OS (device or emulator) | API Level 26 — Android 8.0 Oreo |
+| Android Studio | Latest stable release |
+| Java Development Kit (JDK) | Java 11 or higher |
+| Gradle | Resolved automatically by Android Studio |
+
+Your development machine can be running Windows, macOS, or Linux — M-TPM Portal has no host-OS-specific dependencies beyond a standard Android Studio installation.
+
+---
+
+## Installation Steps
+
+<Steps>
+  <Step title="Download or Clone the Project">
+    Obtain the M-TPM Portal source code by cloning the repository to your local machine:
+
+    ```bash
+    git clone https://github.com/your-org/m-tpm-portal.git
+    cd m-tpm-portal
+    ```
+
+    If you have received the project as a ZIP archive instead, extract it to a convenient location on your machine. Make a note of the full path to the root project folder — you will need it in the next step.
+  </Step>
+
+  <Step title="Open the Project in Android Studio">
+    Launch Android Studio and select **File → Open** from the menu bar. In the file picker dialog, navigate to the root folder of the M-TPM Portal project (the folder that contains `settings.gradle.kts` and the `app/` subdirectory) and click **OK**.
+
+    Android Studio will open the project and begin its initial indexing pass. Wait for the IDE to finish before proceeding — you can monitor progress in the status bar at the bottom of the window.
+  </Step>
+
+  <Step title="Let Android Studio Resolve Dependencies">
+    After the project opens, Android Studio will automatically trigger a Gradle sync to download and resolve all required dependencies. This step requires an active internet connection and may take several minutes on first run depending on your connection speed.
+
+    Watch the **Build** panel at the bottom of the IDE for sync progress. Once you see **BUILD SUCCESSFUL** (or the sync indicator in the status bar disappears), all dependencies have been resolved and the project is ready to configure.
+
+    If the sync fails, check that you have a valid internet connection and that your JDK is set correctly under **File → Project Structure → SDK Location → JDK location**.
+  </Step>
+
+  <Step title="Create Your .env File">
+    M-TPM Portal reads your Gemini API key from a `.env` file at the root of the project. Create this file now by adding a new file named `.env` in the project root directory (the same directory as `settings.gradle.kts`):
+
+    ```env
+    GEMINI_API_KEY=your_key_here
+    ```
+
+    Replace `your_key_here` with your actual Gemini API key. The `.env` file is included in `.gitignore` by default, so it will not be accidentally committed to source control.
+
+    <Note>
+      If you do not yet have a Gemini API key, you can generate one for free at [Google AI Studio](https://aistudio.google.com/app/apikey). See [API Key Setup](/configuration/api-key) for full details on obtaining and configuring your key.
+    </Note>
+  </Step>
+
+  <Step title="Edit app/build.gradle.kts to Enable Local Builds">
+    The repository's `app/build.gradle.kts` file contains a signing configuration reference that is specific to the project's internal CI/CD pipeline and is **not** included in the public source. You must remove this line before Android Studio can build the app successfully.
+
+    Open `app/build.gradle.kts` in the editor and locate the following line inside the `buildTypes` block:
+
+    ```kotlin
+    signingConfig = signingConfigs.getByName("debugConfig")
+    ```
+
+    Delete that line entirely and save the file. The block should build cleanly without a signing configuration for local development.
+
+    <Warning>
+      Skipping this step will cause the Gradle build to fail with an error similar to `signingConfig 'debugConfig' not found`. This is the most common setup issue encountered during local installation — make sure this line is removed before attempting to run the app.
+    </Warning>
+  </Step>
+
+  <Step title="Run the App on a Device or Emulator">
+    You are now ready to build and run M-TPM Portal. Choose one of the following targets:
+
+    **Option A — Physical Android Device:**
+
+    Connect your Android device to your development machine via USB. On your device, open **Settings → Developer Options** and ensure **USB Debugging** is enabled. Accept the authorization prompt that appears on your device when you connect.
+
+    <Note>
+      If Developer Options is not visible in your device's Settings, go to **Settings → About Phone** and tap **Build Number** seven times to unlock Developer Options.
+    </Note>
+
+    **Option B — Android Emulator:**
+
+    Open the **Device Manager** panel in Android Studio (**View → Tool Windows → Device Manager**) and create a new Virtual Device if you do not already have one configured. Choose a device profile with API 26 or higher and complete the AVD wizard, then start the emulator.
+
+    ---
+
+    Once your target device is ready, click the **Run** button (▶) in the Android Studio toolbar or press `Shift + F10`. Select your device from the deployment dialog and click **OK**. Android Studio will compile the app, install it on the target device, and launch it automatically.
+  </Step>
+</Steps>
+
+---
+
+## Next Steps
+
+With M-TPM Portal installed and running, continue with the following:
+
+- Follow the [Quickstart](/quickstart) guide to configure your Gemini API key inside the app and log your first maintenance event.
+- Review [API Key Setup](/configuration/api-key) for detailed instructions on managing your Gemini API key configuration.

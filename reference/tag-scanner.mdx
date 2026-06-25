@@ -1,0 +1,114 @@
+---
+title: "Tag Scanner Screen — M-TPM Portal Reference"
+sidebarTitle: "Tag Scanner"
+description: "Reference guide for the M-TPM Portal tag scanner screen — supported formats, scan modes, result actions, and camera controls."
+---
+
+The Tag Scanner screen uses your device's rear camera to read asset labels and instantly surface the corresponding asset record in M-TPM Portal. Rather than typing asset IDs by hand, you point the camera at a barcode, QR code, or data matrix label affixed to a piece of equipment, and the app retrieves the asset details in seconds. The Tag Scanner is the fastest entry point for logging maintenance events, updating tag statuses, and launching AI-powered OCR audits — making it an essential tool during floor walks, shift handovers, and unplanned breakdown responses.
+
+---
+
+## Screen Layout
+
+The Tag Scanner screen is divided into four functional areas:
+
+| Area | Description |
+|---|---|
+| **Viewfinder** | The live camera preview occupying most of the screen. A targeting reticle in the center guides you to align the label within the scan zone. |
+| **Torch Toggle** | A flashlight icon in the top-right corner. Tap to turn the device torch on or off for scanning in low-light environments. |
+| **Format Selector** | A horizontal chip selector at the bottom of the viewfinder. Tap a chip to restrict scanning to a specific format, or leave it on **Auto** to detect any supported format. |
+| **Result Panel** | A bottom sheet that slides up after a successful scan, displaying asset details and action buttons. |
+
+---
+
+## Supported Barcode & QR Formats
+
+M-TPM Portal can read the following label formats out of the box. No additional configuration is required.
+
+| Format | Type | Common Use Case |
+|---|---|---|
+| **QR Code** | 2D matrix | General asset labeling, serialized equipment tags |
+| **Data Matrix** | 2D matrix | Compact labels on small components, circuit boards |
+| **Code 128** | 1D linear | Warehouse and industrial part numbers |
+| **Code 39** | 1D linear | Legacy industrial equipment tags |
+| **EAN-13** | 1D linear | Manufacturer-issued product labels |
+| **EAN-8** | 1D linear | Compact version of EAN-13 for small items |
+| **UPC-A** | 1D linear | North American retail and industrial product codes |
+
+---
+
+## Scan Modes
+
+<Tabs>
+  <Tab title="Single Scan">
+    In **Single Scan** mode, the scanner reads one label, immediately freezes the viewfinder, and opens the Result Panel with the asset details. The camera does not continue scanning until you dismiss the Result Panel or tap **Scan Again**. 
+
+    Use Single Scan when you want to deliberately review each asset before taking action — for example, when responding to a reported fault and logging a corrective maintenance event.
+  </Tab>
+  <Tab title="Continuous Scan">
+    In **Continuous Scan** mode, the scanner reads labels one after another without pausing. Each successful scan emits an audible beep and adds the asset to a running list visible at the bottom of the screen. The viewfinder stays live throughout.
+
+    Use Continuous Scan for high-speed inventory walks where you need to log multiple assets quickly. You can review and act on all scanned assets in bulk after you finish walking the floor.
+
+    <Tip>
+      Enable **Continuous Scan** mode at the start of a scheduled floor walk to rapidly check off every asset on your route. Once you've covered the area, open the scanned list and use **Bulk Log Event** to apply the same inspection record to all assets at once — saving significant time compared to logging each one individually.
+    </Tip>
+  </Tab>
+</Tabs>
+
+---
+
+## Result Panel
+
+After a successful scan in Single Scan mode (or when you tap an asset from the Continuous Scan list), the Result Panel displays the following fields:
+
+| Field | Description |
+|---|---|
+| **Asset ID** | The unique identifier decoded from the label. |
+| **Asset Name** | The human-readable name of the asset from the registry. |
+| **Location** | The physical location or zone where the asset is registered. |
+| **Last Maintenance** | Date and summary of the most recently completed maintenance event. |
+| **Current Status** | The asset's operational status: `active`, `under_maintenance`, `decommissioned`. |
+
+---
+
+## Actions After a Successful Scan
+
+Four action buttons appear in the Result Panel, letting you move directly from a scan into your next workflow:
+
+<CardGroup cols={2}>
+  <Card title="View Details" icon="eye">
+    Opens the full asset profile, including complete maintenance history, attached photos, and tag metadata.
+  </Card>
+  <Card title="Log Event" icon="clipboard-list">
+    Opens the [Maintenance Log Form](/reference/maintenance-form) with `asset_id` pre-filled from the scan result, ready for you to complete the remaining fields.
+  </Card>
+  <Card title="Edit Tag Status" icon="pen-to-square">
+    Opens a quick-edit sheet to update the asset's `current_status` field without opening the full asset profile. Useful for marking assets as `under_maintenance` at the start of a job.
+  </Card>
+  <Card title="Run AI Audit" icon="robot">
+    Sends the scanned label image to the Gemini API for OCR analysis. The AI reads, parses, and validates the label's printed data against the asset record, flagging any discrepancies. Results are saved to the **AI Audit Log** report.
+  </Card>
+</CardGroup>
+
+---
+
+## Camera Controls
+
+| Control | Location | Function |
+|---|---|---|
+| **Torch On/Off** | Top-right icon | Toggles the device flashlight to illuminate labels in dark environments. |
+| **Front/Rear Camera Switch** | Top-left icon | Switches between the front and rear cameras. Rear camera is recommended for scanning; front camera is available as a fallback. |
+| **Zoom** | Pinch gesture on viewfinder | Pinch out to zoom in on small or distant labels. Double-tap to reset to default zoom. |
+
+---
+
+## Error States
+
+If the scanner cannot process a label, one of the following messages appears in the Result Panel:
+
+| Error | Meaning | Recommended Action |
+|---|---|---|
+| **No tag found** | The camera is active but no scannable label has been detected within the viewfinder for more than 5 seconds. | Re-center the label in the reticle, ensure adequate lighting, or toggle the torch. |
+| **Unrecognized format** | A label was detected, but it does not match any supported barcode or QR format. | Check the label type against the [Supported Formats](#supported-barcode--qr-formats) table. Switch to a specific format in the Format Selector if needed. |
+| **Tag not in system** | The label was decoded successfully, but the Asset ID it contains does not exist in your asset registry. | Verify the Asset ID is correctly registered in M-TPM Portal, or create a new asset record to associate with this tag. |

@@ -1,0 +1,99 @@
+---
+title: "Set Up Your Gemini API Key in M-TPM Portal"
+sidebarTitle: "API Key"
+description: "Get a Google Gemini API key and configure it in M-TPM Portal to unlock AI-powered OCR label auditing and visual inspection features."
+---
+
+The Gemini API key is the single credential that unlocks every AI-powered capability in M-TPM Portal. Without a valid key, OCR label auditing, visual inspection, and any other feature that communicates with Google's Gemini API will be disabled — the rest of the app (maintenance logs, asset tracking, tag management) continues to work normally. This page walks you through obtaining a key from Google AI Studio and wiring it into your project so the app can use it at build time.
+
+## Get a Gemini API Key
+
+You need a free Google account to generate a Gemini API key. The key is created and managed through **Google AI Studio**.
+
+1. Open [https://aistudio.google.com](https://aistudio.google.com) in your browser.
+2. Sign in with your Google account.
+3. Click **Get API Key** in the left sidebar, then click **Create API key**.
+4. Select an existing Google Cloud project or allow AI Studio to create one for you.
+5. Copy the generated key — it starts with `AIzaSy`. Store it somewhere safe immediately; you won't be able to view the full key again after leaving the page.
+
+---
+
+## Add the Key to M-TPM Portal
+
+<Steps>
+  <Step title="Create (or open) the .env file">
+    In the **root directory** of your M-TPM Portal project, create a file named `.env` if one does not already exist. If the file exists, open it in any text editor.
+  </Step>
+  <Step title="Add your API key">
+    Add the following line to the file, replacing the placeholder with your actual key:
+
+    ```dotenv
+    GEMINI_API_KEY=AIzaSy...your_key...
+    ```
+
+    The file should look like this when complete:
+
+    ```dotenv
+    # Required for AI-powered OCR label auditing
+    GEMINI_API_KEY=AIzaSy...your_key...
+    ```
+  </Step>
+  <Step title="Save the file">
+    Save `.env`. Make sure there are no leading or trailing spaces around the key value, and that the filename is exactly `.env` (not `.env.txt` or `env`).
+  </Step>
+  <Step title="Re-run or rebuild the app">
+    The `.env` file is read at build time. Restart your development server or trigger a fresh build so the new value is picked up:
+
+    ```bash
+    # Example: rebuild and run on a connected Android device
+    npx react-native run-android
+    ```
+
+    After the build completes, AI auditing features will be active.
+  </Step>
+</Steps>
+
+---
+
+## Keeping Your Key Secure
+
+<Warning>
+  **Never commit your `.env` file to version control.** Your Gemini API key is a secret credential — exposing it in a public or shared repository can lead to unauthorised usage and unexpected billing charges on your Google Cloud account.
+
+  Add `.env` to your `.gitignore` file:
+
+  ```gitignore
+  # Environment variables — keep secret
+  .env
+  ```
+
+  Use a secrets manager or CI/CD environment variable injection for team and production deployments instead of sharing the raw `.env` file.
+</Warning>
+
+---
+
+## Monitoring API Usage
+
+<Tip>
+  Keep an eye on your Gemini API consumption directly in [Google AI Studio](https://aistudio.google.com) or the [Google Cloud Console](https://console.cloud.google.com). Both dashboards show request counts, error rates, and quota usage in real time. Setting up a billing alert in Google Cloud is a good idea before rolling out AI auditing to a large team.
+</Tip>
+
+---
+
+## Running Through Google AI Studio
+
+<Note>
+  If you are running M-TPM Portal directly through the Google AI Studio app platform, AI Studio can inject the `GEMINI_API_KEY` environment variable automatically at runtime using the project's linked API key. In this case you do not need to create a `.env` file manually — the key is provided by the platform environment.
+</Note>
+
+---
+
+## What Happens if the Key Is Missing or Invalid
+
+If `GEMINI_API_KEY` is absent from your `.env` file, is empty, or contains an invalid value, M-TPM Portal handles it gracefully:
+
+- The **AI Auditing** feature will display an error banner indicating that the Gemini API is unavailable.
+- Attempting to start an OCR label audit will show a prompt directing you to configure a valid API key.
+- All other app features — maintenance log entry, asset management, tag tracking, and reporting — remain fully functional and are not affected.
+
+To resolve the error, follow the steps above to add or correct your key, then rebuild the app.

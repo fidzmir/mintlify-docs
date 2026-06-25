@@ -1,0 +1,90 @@
+---
+title: "Dashboard Screen Reference — M-TPM Portal"
+sidebarTitle: "Dashboard"
+description: "Complete reference for the M-TPM Portal Dashboard screen — navigation elements, quick-action buttons, status cards, and activity feed."
+---
+
+The Dashboard is your home screen and command center inside M-TPM Portal. Every time you open the app, you land here — giving you an at-a-glance view of your maintenance operation's health, quick access to the most common actions, and a live feed of recent activity across all assets. Whether you're starting a morning floor walk, responding to a breakdown, or checking overdue events before a shift handover, the Dashboard is the first place you'll look.
+
+## Layout Overview
+
+The Dashboard is organized into four distinct areas stacked vertically:
+
+1. **Top Navigation Bar** — App title, user avatar, and icon shortcuts to other screens.
+2. **Status Summary Cards** — Four KPI cards showing real-time counts of maintenance event states.
+3. **Quick-Action Buttons** — One-tap shortcuts to the most frequent workflows.
+4. **Recent Activity Feed** — A chronological list of the last 10 maintenance events.
+
+---
+
+## Status Summary Cards
+
+The status cards update in real time as records are created, edited, or resolved. Tap any card to open a filtered list view showing only events in that state.
+
+<CardGroup cols={2}>
+  <Card title="Open Records" icon="folder-open">
+    The total count of maintenance events that have been created but not yet resolved. An event is considered "open" if its status is `pending` or `in_progress`. A rising number here is a signal to triage your backlog.
+  </Card>
+  <Card title="In Progress" icon="spinner">
+    The number of maintenance tasks that are actively being worked on — records whose status has been set to `in_progress`. Use this to monitor how much work your team currently has on their plate.
+  </Card>
+  <Card title="Overdue" icon="clock">
+    Events that have passed their `estimated_completion` datetime without being marked `completed`. Overdue events are highlighted in red throughout the app. Tap this card to see the full overdue list and take immediate action.
+  </Card>
+  <Card title="Completed Today" icon="circle-check">
+    A count of events marked `completed` within the last 24 hours. This card resets at midnight local time and is a quick way to gauge daily throughput.
+  </Card>
+</CardGroup>
+
+---
+
+## Quick-Action Buttons
+
+Four prominent buttons sit between the status cards and the activity feed, covering the actions you perform most often.
+
+<CardGroup cols={2}>
+  <Card title="+ New Record" icon="plus">
+    Opens a blank [Maintenance Log Form](/reference/maintenance-form) so you can manually enter a new maintenance event. Use this when you need to log work that wasn't triggered by a tag scan.
+  </Card>
+  <Card title="Scan Tag" icon="qrcode">
+    Launches the [Tag Scanner](/reference/tag-scanner) screen with the camera ready to read an asset label. After a successful scan, you can view asset details or log an event directly.
+  </Card>
+  <Card title="Start AI Audit" icon="robot">
+    Opens the AI-powered OCR audit workflow powered by Google's Gemini API. Point your camera at any asset label and M-TPM Portal will read, parse, and validate the label's data against your records.
+  </Card>
+  <Card title="View History" icon="clock-rotate-left">
+    Takes you to the full [Reports](/reference/reports) screen with the **Maintenance Summary** report pre-selected, so you can quickly review historical activity.
+  </Card>
+</CardGroup>
+
+---
+
+## Recent Activity Feed
+
+The Recent Activity Feed displays the **last 10 maintenance events** logged in the system, sorted with the most recent at the top. Each row in the feed shows:
+
+| Column | Description |
+|---|---|
+| **Asset ID** | The identifier of the asset this event belongs to. |
+| **Event Type** | Icon and label indicating `corrective`, `preventive`, or `inspection`. |
+| **Status Badge** | Color-coded pill: grey (`pending`), blue (`in_progress`), green (`completed`), red (`overdue`). |
+| **Technician** | Name or ID of the assigned technician, if set. |
+| **Timestamp** | Relative time of the last update (e.g., "3 min ago"), with the absolute datetime on long-press. |
+
+Tap any row in the feed to open the full record in the [Maintenance Log Form](/reference/maintenance-form) in read or edit mode, depending on the event's current status.
+
+---
+
+## Navigation Bar
+
+The bottom navigation bar is persistent across all screens and gives you access to every major section of M-TPM Portal.
+
+| Icon | Label | Destination |
+|---|---|---|
+| 🏠 House | **Dashboard** | Returns you to this screen from anywhere in the app. |
+| 📋 Clipboard | **Records** | Full list of all maintenance records with search and filter controls. |
+| 📷 Camera | **Scan** | Shortcut directly to the [Tag Scanner](/reference/tag-scanner) screen. |
+| 📊 Chart bar | **Reports** | Opens the [Reports](/reference/reports) screen for generating and exporting summaries. |
+| ⚙️ Gear | **Settings** | App configuration: user profile, notification preferences, API settings, and data sync options. |
+
+The currently active section is highlighted with your organization's accent color. The **Scan** icon in the center of the bar is slightly elevated and larger than the others, making it immediately reachable during a fast-paced floor walk.

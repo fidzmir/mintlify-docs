@@ -1,0 +1,109 @@
+---
+title: "Log a Maintenance Event in M-TPM Portal"
+sidebarTitle: "Log Entry"
+description: "Learn how to submit new maintenance records using the M-TPM Portal mobile app — including required fields, optional notes, and status settings."
+---
+
+Logging a maintenance event is the primary way your team captures what is happening on the production floor. Every repair, scheduled service, and inspection starts here — by creating a timestamped record tied to a specific asset and technician. Accurate, timely log entries are the foundation of your TPM data: they feed the live tracking dashboard, populate your maintenance history, and generate the audit trail that compliance teams and plant managers rely on. You can log an event whether you are standing next to the machine or back at a workstation, and the app will sync your data as soon as a connection is available.
+
+## How to Log a New Maintenance Event
+
+<Steps>
+  <Step title="Open the New Record form">
+    From the **Dashboard** or the **Maintenance** hub screen, tap the floating **+** button (labelled **New Record**) in the bottom-right corner of the screen. This opens the maintenance log-entry form with all fields blank and ready to fill in.
+  </Step>
+  <Step title="Select the asset">
+    Tap the **Asset** field to open the asset picker. You can either:
+    - **Scroll or search** the registered asset list by name or asset ID, or
+    - Tap the **Scan Tag** icon to activate the camera and scan the asset's NFC tag or QR code label.
+
+    Once selected, the asset name and ID will auto-populate in the form header.
+
+    <Tip>
+      Use the **Scan Tag** option whenever you are physically next to the machine. Scanning the tag auto-fills the asset ID, asset name, and location fields instantly — eliminating transcription errors and saving time on busy shifts.
+    </Tip>
+  </Step>
+  <Step title="Choose the event type">
+    Tap **Event Type** and select one of the three options:
+
+    - **Corrective** — the asset has failed or is underperforming and needs repair.
+    - **Preventive** — a scheduled service carried out to prevent future failure.
+    - **Inspection** — a condition check or audit with no repair work performed.
+  </Step>
+  <Step title="Enter job details">
+    Fill in the following fields:
+
+    - **Description** — type a clear summary of the issue or work to be performed. Be specific: include symptoms, part references, or OEM codes where relevant.
+    - **Start Time** — the date and time the event began. This defaults to the current date and time; tap the field to adjust if you are logging a past event.
+    - **Estimated Completion** — the target date and time by which the job should be finished. This is used to calculate overdue flags in the tracking dashboard.
+  </Step>
+  <Step title="Set the initial status">
+    Tap **Status** and choose the state that best describes the job right now:
+
+    - **Pending** — the job has been raised but work has not yet started.
+    - **In Progress** — work is actively underway.
+    - **Completed** — the job is finished and the asset is back in service.
+  </Step>
+  <Step title="Add optional notes or a photo">
+    - **Notes** — tap the **Notes** field to type any additional context: safety observations, parts used, follow-up actions required, or links to related records.
+    - **Photo** — tap the **Attach Photo** button to take a new photo with your device camera or choose an existing image from your gallery. Photos are stored with the record and visible in the History view.
+  </Step>
+  <Step title="Submit the record">
+    Tap the **Submit** button at the bottom of the form. The app validates all required fields before saving. If any required field is empty, it will be highlighted in red with an inline error message.
+
+    Once submitted, your record appears immediately in the **Active Orders** list on the Tracking dashboard (if status is Pending or In Progress) and in **Maintenance History**.
+
+    <Note>
+      If your device is offline when you tap **Submit**, the record is saved as a local draft and shown with a **Pending Sync** indicator. It will be uploaded to the server automatically the next time the app detects an active internet connection — no manual action required. Drafts are stored securely on-device and will not be lost if you close the app.
+    </Note>
+  </Step>
+</Steps>
+
+## Field Reference
+
+The table below summarises every field on the log-entry form, whether it is required, and what you should enter.
+
+| Field | Required | Description |
+|---|---|---|
+| **Asset** | ✅ Yes | The asset this event relates to. Select from the list or scan its tag. |
+| **Event Type** | ✅ Yes | Category of maintenance: Corrective, Preventive, or Inspection. |
+| **Description** | ✅ Yes | A clear summary of the issue or work performed. |
+| **Status** | ✅ Yes | Current state of the job: Pending, In Progress, or Completed. |
+| **Start Time** | ✅ Yes | Date and time the event began. Defaults to now; editable. |
+| **Estimated Completion** | ✅ Yes | Target date and time to finish the job. Used for overdue calculations. |
+| **Notes** | ❌ Optional | Additional context, parts used, safety notes, or follow-up actions. |
+| **Photo** | ❌ Optional | An image of the asset condition. Taken with camera or chosen from gallery. |
+
+## ParamField Reference
+
+<ParamField body="asset_id" type="string" required>
+  The unique identifier of the asset associated with this maintenance event. Auto-populated when you scan an asset tag. Must match a registered asset in the system.
+</ParamField>
+
+<ParamField body="event_type" type="enum" required>
+  The category of the maintenance event. Accepted values: `Corrective`, `Preventive`, `Inspection`.
+</ParamField>
+
+<ParamField body="description" type="string" required>
+  A free-text description of the maintenance issue or work performed. Minimum 10 characters. No maximum length enforced, but keep entries concise for readability in the tracking and history views.
+</ParamField>
+
+<ParamField body="status" type="enum" required>
+  The current state of the work order at time of submission. Accepted values: `Pending`, `In Progress`, `Completed`.
+</ParamField>
+
+<ParamField body="start_time" type="datetime" required>
+  ISO 8601 datetime representing when the maintenance event began. Defaults to the current device time. Can be backdated to log past events.
+</ParamField>
+
+<ParamField body="estimated_completion" type="datetime" required>
+  ISO 8601 datetime representing the target completion time. Records whose status is not `Completed` by this time will be flagged as **Overdue** in the tracking dashboard.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Optional free-text field for additional context such as parts used, safety observations, or follow-up actions. Displayed in the record detail view and exported in CSV output.
+</ParamField>
+
+<ParamField body="photo" type="file">
+  Optional image attachment. Accepted formats: JPEG, PNG. Maximum file size: 10 MB per image. Stored locally on device and synced to the server when online.
+</ParamField>

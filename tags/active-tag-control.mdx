@@ -1,0 +1,82 @@
+---
+title: "Control Active Asset Tags in M-TPM Portal"
+sidebarTitle: "Active Tag Control"
+description: "Monitor and manage the active status of asset tags across your production floor — mark tags as active, inactive, or flagged for re-labeling."
+---
+
+Active tag control gives you a real-time view of every asset tag registered in your organization and lets you update the status of any tag directly from your mobile device. Keeping tag statuses current ensures that maintenance records are only created against equipment that is genuinely in service, prevents retired or offline assets from cluttering your active asset list, and ensures that damaged or mismatched labels are surfaced for correction before they cause data integrity issues. Whether you are commissioning new equipment, retiring an old machine, or following up on a label audit, active tag control is your central workspace for managing the health of your asset registry.
+
+## Tag Statuses
+
+M-TPM Portal recognizes four distinct tag statuses, each representing a specific state of the equipment and its associated label:
+
+- **Active** — the tag is valid and the equipment is currently in service. Maintenance events can be logged against active tags without restriction.
+- **Inactive** — the equipment has been taken offline, is undergoing extended maintenance, or has been retired from service. Inactive tags remain in the registry for historical reference but are hidden from the default active asset list.
+- **Flagged** — the label is damaged, the encoded ID does not match the human-readable text on the label, or the tag has been identified as requiring re-audit. No new maintenance records can be saved against a flagged tag until the flag is resolved.
+- **Pending** — the tag has been newly added to the registry but has not yet been physically verified or confirmed by a user with the appropriate permission level. Pending tags are visible to all users but are distinguished from active tags in list views.
+
+<Tabs>
+  <Tab title="Active">
+    **Status: Active**
+
+    The tag is attached to equipment that is currently in service and has been verified as correct. This is the normal operating state for any asset on the production floor.
+
+    **What to do:** No action required. You can scan this tag to log maintenance events, view history, or check asset details at any time.
+
+    **When to change it:** Mark a tag as Inactive when the equipment is taken offline, retired, or moved out of your production scope. Mark it as Flagged if you notice physical damage to the label or a discrepancy between the printed text and the scanned ID.
+  </Tab>
+  <Tab title="Inactive">
+    **Status: Inactive**
+
+    The tag belongs to equipment that is currently offline, undergoing extended repair, or has been decommissioned. The asset and its full maintenance history are preserved in the system, but the tag does not appear in active asset lists.
+
+    **What to do:** No routine action is required. The asset record remains accessible via the full tag list or by scanning the label directly.
+
+    **When to change it:** Reactivate the tag (set back to Active) when the equipment returns to service. If the equipment is permanently retired and the physical label needs to be removed or destroyed, consider running an AI OCR audit before archiving the record.
+  </Tab>
+  <Tab title="Flagged">
+    **Status: Flagged**
+
+    The tag has been identified as problematic — the label may be physically damaged, the asset ID encoded in the barcode or QR code may not match the printed identifier, or an automated OCR audit has detected a mismatch.
+
+    **What to do:** Investigate the discrepancy. You can run an [AI OCR Label Audit](/ai/ocr-label-audit) to compare the label's printed content against the encoded data. Once the issue is resolved — either by re-printing and affixing a new label or by correcting the asset record — update the tag status to Active or Inactive as appropriate.
+
+    **When to change it:** Only resolve a Flagged status after the underlying issue has been confirmed as corrected. Prematurely re-activating a flagged tag can allow incorrect data to enter your maintenance records.
+  </Tab>
+  <Tab title="Pending">
+    **Status: Pending**
+
+    The tag has been added to the registry — typically as part of a new equipment commissioning workflow — but has not yet been physically scanned and verified by an authorized user.
+
+    **What to do:** Locate the physical asset, scan its label, confirm that the encoded ID matches the record in the system, and then update the status to Active. If the label has not yet been printed and applied, coordinate with your facilities or labeling team before verifying.
+
+    **When to change it:** Move the tag to Active once physical verification is complete. If the equipment is not being placed in service immediately, move it to Inactive instead.
+  </Tab>
+</Tabs>
+
+## Changing a Tag's Status
+
+You can update the status of any individual tag directly from your device by following these steps:
+
+1. **Scan the tag** — open the scanner (Dashboard → Scan icon, or Tags → Scan Label) and scan the asset label, or find the asset in the Tags list view and tap its row.
+2. **Tap Edit Status** — on the asset detail screen, tap the **Edit Status** button located beneath the current status badge.
+3. **Select the new status** — choose from Active, Inactive, Flagged, or Pending in the status picker that appears.
+4. **Confirm the change** — tap **Confirm** to save the update. The new status is applied immediately and the change is recorded in the asset's audit log with your username and a timestamp.
+
+## Bulk Status Updates
+
+When you need to update the status of multiple tags at once — for example, marking an entire production line as Inactive during a scheduled shutdown — you can use the bulk selection tools in the Tags list view:
+
+1. Navigate to **Tags** from the main menu to open the full tag list.
+2. Tap the **Select** button in the top-right corner to enter multi-selection mode.
+3. Tap each tag row you want to include, or tap **Select All** to include every tag currently visible (respecting any active filters).
+4. Tap the **Edit Status** button in the bulk action bar at the bottom of the screen.
+5. Choose the target status and tap **Apply to Selected**. You will be shown a summary of how many tags will be affected before confirming.
+
+<Note>
+  The ability to change a tag's status is controlled by your user role. Standard technician accounts can flag a tag for re-audit but cannot move a tag from Pending to Active or set a tag to Inactive. Status changes that affect service availability require a Supervisor or Administrator role. Contact your system administrator if you need to request a role adjustment. See the Permissions Configuration guide for a full breakdown of role-based access controls.
+</Note>
+
+<Tip>
+  Rather than manually inspecting labels to decide which ones need to be flagged, let M-TPM Portal do it for you. The [AI OCR Label Audit](/ai/ocr-label-audit) feature uses Google's Gemini API to photograph a label, extract its human-readable text via optical character recognition, and automatically compare it against the encoded asset ID — flagging any tags where the two do not match. Running a periodic OCR audit across your production floor is the fastest way to keep your tag registry accurate.
+</Tip>

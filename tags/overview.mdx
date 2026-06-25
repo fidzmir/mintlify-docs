@@ -1,0 +1,53 @@
+---
+title: "Asset Tag Management in M-TPM Portal"
+sidebarTitle: "Overview"
+description: "Learn how M-TPM Portal uses asset tags to identify, track, and control production equipment — and how to manage them from your mobile device."
+---
+
+Asset tags are the backbone of accurate TPM record-keeping in M-TPM Portal. Every piece of production equipment on your floor carries a physical label — a barcode, QR code, or other machine-readable identifier — that uniquely identifies that asset in the system. By tying every maintenance action to a scanned tag rather than a manually entered ID, M-TPM Portal eliminates transcription errors, speeds up data entry, and gives you a complete, trustworthy audit trail from the first inspection to the final retirement of a machine.
+
+## What Are Asset Tags?
+
+In the context of Total Productive Maintenance, an asset tag is a durable physical label affixed to a piece of production equipment. It encodes a unique asset identifier that M-TPM Portal can read with your device's camera. Tags typically take the form of printed barcodes or QR codes, though M-TPM Portal also supports a range of other label formats to accommodate the varied labeling standards found across production environments.
+
+When M-TPM Portal scans a tag, it immediately retrieves the full asset record from your organization's database — including the asset's name, location, service history, and current tag status. This instant lookup removes the need for operators or technicians to remember or type long asset ID strings in the middle of a busy maintenance shift.
+
+## Why Tag-Based Identification Matters
+
+Tag-based identification delivers three core benefits to a TPM program:
+
+- **Accurate asset association** — maintenance logs, inspection results, and downtime events are always linked to the correct machine, not a mistyped ID.
+- **Faster data entry** — a two-second scan replaces manual ID lookup, keeping technicians focused on the work rather than the paperwork.
+- **Complete audit trails** — every scan is timestamped and attributed to the logged-in user, giving supervisors and auditors a verified chain of custody for every maintenance record.
+
+## Tag Workflows
+
+M-TPM Portal organizes tag management into two primary workflows that you will use on a daily basis:
+
+1. **Scan a label** — point your device camera at any asset tag to instantly retrieve asset details, review maintenance history, or log a new maintenance event.
+2. **Manage active tag status** — review and update the active/inactive/flagged status of tags across your production floor, either one at a time or in bulk.
+
+## How Tags Relate to Maintenance Records
+
+Every maintenance record created in M-TPM Portal is anchored to a tagged asset. When you log a new maintenance event, the system requires a valid tag scan (or a tag selection from the active tag list) before the record can be saved. This hard link between tag and record means you can always trace a maintenance entry back to its physical source — and conversely, you can pull up every event ever logged against a specific machine by scanning its label.
+
+Tags also play a role in AI-powered auditing: M-TPM Portal's OCR label audit feature uses Google's Gemini API to read the human-readable text on a label and verify that it matches the encoded asset ID, flagging any discrepancies for review.
+
+## Explore Tag Management
+
+<CardGroup cols={2}>
+  <Card
+    title="Scan Label"
+    icon="camera"
+    href="/tags/scan-label"
+  >
+    Use your device camera to scan barcode and QR code asset labels, instantly pulling up asset details and maintenance records.
+  </Card>
+  <Card
+    title="Active Tag Control"
+    icon="tag"
+    href="/tags/active-tag-control"
+  >
+    Monitor and update the active status of asset tags across your production floor, including bulk updates and flagging for re-audit.
+  </Card>
+</CardGroup>

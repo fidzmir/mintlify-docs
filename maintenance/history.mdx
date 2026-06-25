@@ -1,0 +1,75 @@
+---
+title: "Browse and Export Maintenance History"
+sidebarTitle: "History"
+description: "Search and review past maintenance records in M-TPM Portal. Filter by asset, date range, or event type, and export data for reporting."
+---
+
+A complete, searchable maintenance history is one of the most valuable assets your TPM program can build. Over time, your accumulated records reveal failure patterns, track mean-time-between-failures for specific machines, demonstrate regulatory compliance, and give engineers the data they need to make informed decisions about asset replacement or redesign. M-TPM Portal stores every maintenance event you submit — including completed jobs, closed inspections, and all historical preventive services — in a persistent on-device database that is always available even without an internet connection. The History screen puts that data at your fingertips with powerful search and filter tools, and lets you export it in standard formats for use in external reporting tools.
+
+## Navigating to Maintenance History
+
+From the **Maintenance hub screen**, tap the **History** tile. Alternatively, while in the Maintenance section, tap the **History** tab in the tab bar at the top of the screen.
+
+The History screen opens to a reverse-chronological list of all completed and closed maintenance records. The most recently completed job appears at the top. By default, all event types and assets are shown with no date restriction — use the filters described below to narrow your view.
+
+## Search and Filter Options
+
+To find specific records quickly, use the search bar at the top of the History screen combined with one or more of the available filters. Tap the **Filter** icon (funnel icon, top-right) to expand the filter panel.
+
+| Filter | How to Use |
+|---|---|
+| **Asset ID / Name** | Type an asset ID or partial name in the search bar. Results update as you type. |
+| **Date Range** | Set a **From** and **To** date to show only records whose start time falls within that window. |
+| **Event Type** | Select one or more of Corrective, Preventive, or Inspection to limit results by job category. |
+| **Status** | Filter by Completed, or include Overdue records that were eventually closed. |
+| **Technician** | Select a team member's name to see all jobs completed by that person. |
+
+Applied filters appear as removable chips beneath the search bar. Tap **×** on any chip to remove it individually, or tap **Clear All** to reset to the default unfiltered view.
+
+<Tip>
+  To prepare a monthly maintenance report, tap **Filter**, set the **Date Range** to the first and last day of the target month, and optionally filter by **Event Type** to separate corrective work from preventive services. Once filtered, tap **Export** to generate a CSV covering exactly that month's activity — ready to paste into your reporting template or share with your maintenance manager.
+</Tip>
+
+## Reading a History Record
+
+Tap any item in the History list to open the **Record Detail** screen. The detail view shows every field captured when the job was logged and updated:
+
+| Field | Description |
+|---|---|
+| **Record ID** | A unique system-generated identifier for this maintenance event. Useful when referencing records in external systems or audit documents. |
+| **Asset** | The name and ID of the asset the event relates to. Tap the asset name to open its full asset profile. |
+| **Event Type** | Corrective, Preventive, or Inspection. |
+| **Description** | The original job description entered at the time of logging. |
+| **Status** | The final status of the record (typically Completed). |
+| **Start Time** | The date and time the event was logged or the job began. |
+| **Estimated Completion** | The original target completion time set when the record was created. |
+| **Actual Completion** | The date and time the technician marked the job as Completed. |
+| **Technician** | The team member who carried out or was assigned to the work. |
+| **Notes** | All notes appended to the record, each with its own timestamp and author. |
+| **Photo(s)** | Any images attached to the record. Tap a thumbnail to view full-size. |
+
+From the detail screen, you can tap **Edit Record** to amend the description, notes, or estimated completion time. Status changes are logged with a timestamp so the full history of status transitions is preserved.
+
+## Exporting Records
+
+M-TPM Portal lets you export your filtered maintenance history for use in spreadsheets, CMMS platforms, compliance filings, or management reporting.
+
+### Export as CSV
+
+1. Apply any filters you want to scope the export (e.g., a specific date range or event type).
+2. Tap the **Export** button (download icon, top-right of the History screen).
+3. Select **Export as CSV**.
+4. The app generates a `.csv` file containing all visible records with the following columns: Record ID, Asset ID, Asset Name, Event Type, Description, Status, Start Time, Estimated Completion, Actual Completion, Technician, Notes, Photo Attached.
+5. Choose a save location on your device or tap **Share** to pass the file directly to another app.
+
+### Share via Android Share Sheet
+
+If you prefer to send the export directly without saving a file first:
+
+1. Follow steps 1–3 above, then tap **Share** instead of saving.
+2. Android's native share sheet opens, listing all apps that can receive a file — including email clients, cloud storage apps (Google Drive, OneDrive), messaging apps, and more.
+3. Select your preferred destination and complete the share action in that app.
+
+<Note>
+  Maintenance records are stored **persistently on your device** and are not subject to automatic deletion. Records will remain available in the History screen regardless of how long ago they were created, as long as the app data has not been manually cleared from your device's storage settings. If your organisation has a defined records-retention policy (for example, keeping only the last three years of maintenance data), records older than that threshold should be exported and archived before removing the app or resetting the device. M-TPM Portal does not automatically purge records on your behalf.
+</Note>

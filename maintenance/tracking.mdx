@@ -1,0 +1,88 @@
+---
+title: "Track Live Maintenance Status on the Production Floor"
+sidebarTitle: "Tracking"
+description: "Monitor active maintenance work orders in real time using M-TPM Portal's tracking dashboard — filter by asset, status, or technician."
+---
+
+Real-time visibility into maintenance work is essential on a busy production floor. Without it, supervisors are left guessing which jobs are open, which technicians are occupied, and which assets are still out of service — leading to scheduling conflicts, duplicated effort, and missed deadlines. M-TPM Portal's Tracking dashboard solves this by surfacing every active work order in a single, filterable view that updates as technicians log changes in the field. Whether you manage a single line or an entire facility, the Tracking screen gives you an accurate, live picture of maintenance activity the moment you open it.
+
+## The Maintenance Tracking View
+
+To open the Tracking dashboard, tap **Active Orders** from the Maintenance hub screen, or select the **Tracking** tab in the bottom navigation bar while inside the Maintenance section.
+
+The dashboard displays a scrollable list of all work orders that are not yet marked as **Completed**. Each list item shows:
+
+- **Asset name and ID** — which machine or component the job relates to.
+- **Event type badge** — a colour-coded label indicating Corrective, Preventive, or Inspection.
+- **Status badge** — a coloured pill showing the current state of the job (see status types below).
+- **Assigned technician** — the name of the team member responsible for the work.
+- **Start time** — when the event was logged or when work began.
+- **Estimated completion** — the target finish time, with an overdue indicator if the deadline has passed.
+
+<Tip>
+  Pull down on the Tracking list at any time to trigger a manual refresh. The list auto-refreshes every 60 seconds while the screen is open and your device is online, but a manual pull-to-refresh is useful after a technician has just updated a job in the field.
+</Tip>
+
+## Status Types
+
+Each work order carries a status badge that immediately communicates the state of the job. Use these statuses to prioritise your attention and coordinate your team.
+
+<Tabs>
+  <Tab title="🟡 Pending">
+    **Pending** means the work order has been raised and assigned, but no work has started yet.
+
+    - The job is in the queue and waiting for a technician to begin.
+    - Use this status when you are logging a job in advance of a scheduled service window, or when a fault has been reported but a technician has not yet been dispatched.
+    - Pending items with an approaching estimated completion time are sorted toward the top of the list automatically.
+  </Tab>
+  <Tab title="🔵 In Progress">
+    **In Progress** means a technician is actively working on the job right now.
+
+    - The record has been updated by the assigned technician to reflect that work has begun.
+    - The technician's name and start time are prominently displayed to help supervisors know where their team is deployed.
+    - Tap the item to see the full job description, notes, and any attached photos added during the work.
+  </Tab>
+  <Tab title="🟢 Completed">
+    **Completed** means the job has been finished and the asset has been returned to service.
+
+    - Completed items are removed from the Active Orders list and moved to [Maintenance History](/maintenance/history) automatically.
+    - A completion timestamp is recorded and visible in the history detail view.
+    - If a completed record needs to be reviewed or amended, open it from History and tap **Edit Record**.
+  </Tab>
+  <Tab title="🔴 Overdue">
+    **Overdue** means the estimated completion time has passed but the job status has not been updated to Completed.
+
+    - Overdue items are highlighted in red and pinned to the top of the Active Orders list, regardless of your current sort order.
+    - The app does not automatically close or escalate overdue items — a technician or supervisor must update the status manually.
+    - If a job is overdue due to a parts delay or extended repair, update the **Estimated Completion** field to a new target date to clear the overdue flag and set a more accurate deadline.
+
+    <Note>
+      An **Overdue** badge does not change the underlying status of the record — the status remains Pending or In Progress. Overdue is a calculated indicator based on the gap between the current time and the estimated completion timestamp. As soon as a technician marks the job **Completed**, the overdue flag is cleared.
+    </Note>
+  </Tab>
+</Tabs>
+
+## Filtering the Active Orders List
+
+When your facility has many open work orders, filters help you focus on the jobs that matter most to you right now. Tap the **Filter** icon (funnel icon, top-right of the Tracking screen) to open the filter panel.
+
+You can apply one or more of the following filters simultaneously:
+
+- **By Asset** — tap **Asset** and search or select from your registered asset list to show only work orders for a specific machine or component.
+- **By Status** — tap **Status** and select one or more status values (Pending, In Progress, Overdue) to narrow the list.
+- **By Date Range** — tap **Date Range** and set a start and end date to show only jobs whose start time falls within that window.
+- **By Technician** — tap **Technician** and select a team member's name to see only the jobs assigned to that person.
+
+Active filters are shown as removable chips below the search bar. Tap the **×** on any chip to remove that individual filter, or tap **Clear All** to reset the list to its default view.
+
+## Viewing and Updating a Work Order
+
+Tap any item in the Active Orders list to open the **Work Order Detail** screen. This screen shows the full record including all fields, any notes, and attached photos.
+
+From the detail screen you can:
+
+- **Update the status** — tap the current status badge at the top of the screen and select a new value from the dropdown. The change is saved and synced immediately.
+- **Edit the estimated completion** — tap the estimated completion date/time to open the date picker and set a new target.
+- **Add notes** — tap **Add Note** to append a new note without overwriting the original description. All notes are timestamped.
+- **Attach a photo** — tap **Attach Photo** to add an image to the existing record.
+- **Navigate to the asset profile** — tap the asset name at the top of the detail screen to open the full asset record in the Asset Management section.

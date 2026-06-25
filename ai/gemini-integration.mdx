@@ -1,0 +1,78 @@
+---
+title: "Gemini AI Integration in M-TPM Portal"
+sidebarTitle: "Gemini Integration"
+description: "Understand how M-TPM Portal uses the Google Gemini API for visual OCR analysis and how to configure your API key for AI-powered features."
+---
+
+M-TPM Portal integrates directly with the Google Gemini API to power its AI-driven features, most notably OCR label auditing. All AI processing happens server-side via Gemini — your device captures the image, the app sends it to Google's API with a structured prompt, and the response is parsed and displayed as a human-readable audit result. You don't need to write any code, train any models, or manage any infrastructure. All you need is your own Gemini API key and a few minutes of setup to unlock the full suite of AI capabilities in M-TPM Portal.
+
+## What Gemini Is Used For
+
+M-TPM Portal uses the Gemini API for the following AI-powered tasks:
+
+- **Visual analysis of logistics labels (OCR)** — Gemini's multimodal vision capability reads printed text from label images captured by your device camera, regardless of font, layout, or label format
+- **Text extraction and structuring** — raw text from the label is parsed into structured fields (asset ID, dates, condition codes, etc.) that can be directly compared against your records
+- **Discrepancy detection** — the API response is processed to identify which fields match, which differ, and which could not be read, producing the colour-coded audit result your team sees on screen
+
+## How It Works
+
+You don't need to interact with the Gemini API directly — M-TPM Portal handles the entire integration for you. Here is what happens behind the scenes when you run an audit:
+
+1. **Image capture** — you photograph the logistics label using the in-app camera
+2. **Prompt construction** — the app builds a structured prompt that includes the captured image and the expected field values from your asset record
+3. **API call** — the image and prompt are sent securely to the Gemini API endpoint using your configured API key
+4. **Response parsing** — the API returns a structured analysis; M-TPM Portal parses this into matched, mismatched, and unreadable field groups along with a confidence score and recommended action
+5. **Results display** — the processed result is shown on your screen and saved to the relevant maintenance or asset record
+
+<CardGroup cols={2}>
+  <Card title="What Gemini Does" icon="sparkles">
+    - Reads and extracts text from label images
+    - Identifies and structures data fields
+    - Compares extracted values against expected records
+    - Generates a confidence score and recommended action
+    - Flags unreadable or damaged label sections
+  </Card>
+  <Card title="What You Need" icon="list-check">
+    - An Android device running M-TPM Portal
+    - A Google account with access to Google AI Studio
+    - A valid Gemini API key (free tier available)
+    - The API key entered in your app's `.env` configuration
+    - A stable internet connection during audits
+  </Card>
+</CardGroup>
+
+## Getting Your Gemini API Key
+
+M-TPM Portal does not provide a shared API key — each organisation supplies its own. This ensures you have full control over usage, billing, and data access.
+
+To obtain a Gemini API key:
+
+1. Visit [Google AI Studio](https://aistudio.google.com) and sign in with your Google account
+2. Click **Get API key** in the left-hand navigation
+3. Select **Create API key** and choose or create a Google Cloud project to associate it with
+4. Copy the generated key — you will need it in the next step
+
+Once you have your key, follow the [API Key Configuration](/configuration/api-key) guide to add it to your M-TPM Portal installation.
+
+<Note>
+  Your Gemini API key is stored in your app's `.env` configuration file under the variable `GEMINI_API_KEY`. Never commit this file to a public repository or share the key with unauthorised users. If a key is compromised, revoke it immediately in Google AI Studio and generate a new one.
+</Note>
+
+## Data Privacy
+
+When you run an OCR label audit, the captured label image is transmitted to Google's Gemini API for processing. This means image data leaves your device and is handled according to [Google's API Terms of Service and Privacy Policy](https://ai.google.dev/gemini-api/terms).
+
+Please observe the following guidelines to protect sensitive information:
+
+- **Do not audit labels that contain personal data** such as names, addresses, national ID numbers, or any information subject to GDPR, HIPAA, or equivalent regulations
+- **Do not audit labels containing confidential commercial information** such as proprietary formulas, pricing data, or unreleased product details
+- If your organisation has strict data residency requirements, consult your IT or compliance team before enabling AI auditing features
+
+<Warning>
+  Gemini API calls are billed to the owner of the API key. Every label audit you perform consumes API credits. Monitor your usage and set budget alerts in [Google AI Studio](https://aistudio.google.com) or the Google Cloud Console to avoid unexpected charges. High-volume audit workflows — such as bulk incoming shipment checks — can accumulate significant API usage quickly.
+</Warning>
+
+## Related
+
+- [OCR Label Audit workflow](/ai/ocr-label-audit) — step-by-step guide to running your first label audit
+- [API Key Configuration](/configuration/api-key) — how to add your Gemini API key to M-TPM Portal

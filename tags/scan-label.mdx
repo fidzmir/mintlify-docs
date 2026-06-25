@@ -1,0 +1,60 @@
+---
+title: "Scan Asset Labels with Your Camera"
+sidebarTitle: "Scan Label"
+description: "Use M-TPM Portal's built-in camera scanner to read barcode and QR code asset labels, instantly pulling up asset details and maintenance records."
+---
+
+M-TPM Portal's built-in label scanner eliminates manual asset ID entry entirely. Instead of searching for an asset by name or typing out a lengthy identifier, you simply point your device camera at the label on the equipment and let the scanner do the work. This not only saves time during busy maintenance shifts, but also removes the risk of logging data against the wrong asset — a mistake that can corrupt maintenance histories and skew TPM analytics. The scanner supports a wide range of label formats and works across all Android devices supported by M-TPM Portal.
+
+## Scanning Workflow
+
+<Steps>
+  <Step title="Open the scanner">
+    Tap the **Scan** icon on the Dashboard home screen, or navigate to **Tags → Scan Label** from the main menu. The scanner view will open and activate your device's rear camera automatically.
+  </Step>
+  <Step title="Aim at the asset label">
+    Point the camera at the barcode or QR code on the asset label. Hold the device steady and ensure the entire label is visible within the scanning frame. The app will continuously analyze the camera feed — you do not need to tap a shutter button.
+  </Step>
+  <Step title="Wait for confirmation">
+    When the scanner successfully reads the label, a **green confirmation overlay** appears around the detected code and a short haptic feedback pulse is triggered. This confirms that the asset ID has been captured correctly.
+  </Step>
+  <Step title="Review asset details">
+    The app immediately displays the asset detail screen, showing:
+    - **Asset ID** — the unique identifier encoded in the label
+    - **Asset Name** — the human-readable name of the equipment
+    - **Location** — the production zone or line where the asset is registered
+    - **Last Maintenance Date** — the timestamp of the most recent logged maintenance event
+
+    Review these details to confirm you have scanned the intended asset before proceeding.
+  </Step>
+  <Step title="Choose an action">
+    From the asset detail screen, select one of the following actions:
+    - **View History** — browse the full chronological maintenance log for this asset
+    - **Log New Event** — open the maintenance entry form pre-populated with this asset's ID
+    - **Check Tag Status** — view and update the active status of this asset's tag
+  </Step>
+</Steps>
+
+## Supported Label Formats
+
+M-TPM Portal's scanner can read the following label formats out of the box — no additional configuration is required:
+
+| Format | Common Use |
+|---|---|
+| **QR Code** | General-purpose asset labels, high data density |
+| **Code 128** | Industrial serial numbers and part identifiers |
+| **Code 39** | Legacy manufacturing and inventory labels |
+| **EAN-13** | Commercial product and equipment labels |
+| **Data Matrix** | Compact labels on small or precision components |
+
+<Tip>
+  If you are scanning in a dimly lit area of the production floor, enable your device's built-in torch before opening the scanner. Tap the **flashlight icon** in the top-right corner of the scanner view to toggle it on. Good, even lighting is the single biggest factor in successful scans.
+</Tip>
+
+<Warning>
+  If a label is physically damaged, partially obscured by grease or paint, or has peeled away from the equipment surface, the camera scanner may be unable to read it reliably. In these cases, do not attempt repeated scans that could log incorrect data. Instead, use the **AI OCR Label Audit** feature, which uses Google's Gemini API to interpret degraded labels and flag mismatches for manual review.
+</Warning>
+
+<Note>
+  The scanner requires your device's camera permission to function. If you have not yet granted this permission, or if it was previously denied, M-TPM Portal will prompt you to update your settings. See the [Permissions Configuration](/configuration/permissions) guide for step-by-step instructions on enabling camera access.
+</Note>

@@ -1,0 +1,91 @@
+---
+title: "Maintenance Log Form — Field Reference"
+sidebarTitle: "Maintenance Form"
+description: "Complete field reference for the M-TPM Portal maintenance log entry form — required fields, accepted values, and validation rules."
+---
+
+The Maintenance Log Form is the core data-entry screen in M-TPM Portal, used to create new maintenance records and edit existing ones. You access it by tapping **+ New Record** on the Dashboard, by tapping **Log Event** after a tag scan, or by selecting any existing record from a list. Every maintenance event in the system — whether corrective, preventive, or inspection — is captured and tracked through this form. Fields marked as required must be filled before you can save a record; optional fields let you capture richer context when it's available.
+
+<Note>
+  The form automatically saves a draft every 30 seconds while you are editing. If you navigate away or the app is interrupted, your progress is preserved. You can resume your draft from the **Records** list, where unsaved drafts appear with a "Draft" badge.
+</Note>
+
+---
+
+## Field Reference
+
+<ParamField body="asset_id" type="string" required>
+  The unique identifier of the asset this maintenance event is associated with. You can type the ID manually or tap the **Scan Tag** icon next to this field to launch the camera and auto-fill it by scanning a barcode or QR code on the asset label. Asset IDs must match a record in your active asset registry; unrecognized IDs trigger a validation error.
+</ParamField>
+
+<ParamField body="event_type" type="enum" required>
+  Classifies the nature of the maintenance work. Accepted values:
+
+  | Value | Description |
+  |---|---|
+  | `corrective` | Unplanned work performed in response to a failure or defect. |
+  | `preventive` | Scheduled, proactive work intended to prevent failures. |
+  | `inspection` | A structured check or audit of the asset's condition without repair work. |
+</ParamField>
+
+<ParamField body="description" type="string" required>
+  A free-text description of the maintenance work performed or to be performed. Keep descriptions specific and actionable — they appear in reports and audit trails. Maximum **500 characters**. A live character counter is shown below the field.
+</ParamField>
+
+<ParamField body="status" type="enum" required>
+  The current lifecycle state of this maintenance event. Accepted values:
+
+  | Value | Description |
+  |---|---|
+  | `pending` | Work has been logged but not yet started. |
+  | `in_progress` | Work is actively underway. |
+  | `completed` | Work has been finished. Setting this value records a completion timestamp automatically. |
+
+  <Warning>
+    You cannot revert a record from `completed` back to `in_progress` or `pending` without supervisor-level permissions. If you mark a record complete by mistake, contact your system administrator.
+  </Warning>
+</ParamField>
+
+<ParamField body="start_time" type="datetime" required>
+  The date and time when the maintenance event began or is scheduled to begin. Defaults to the current device time when you open a new form. Tap the field to open the date/time picker. The value must not be set to a future time if `status` is `in_progress` or `completed`.
+</ParamField>
+
+<ParamField body="estimated_completion" type="datetime">
+  The expected date and time by which the maintenance event should be resolved. This value is used to calculate overdue status — if the current time exceeds `estimated_completion` and `status` is not `completed`, the record is flagged as overdue and appears on the Dashboard's **Overdue** card. Must be after `start_time`.
+</ParamField>
+
+<ParamField body="technician" type="string">
+  The name or employee ID of the technician responsible for performing the work. This field auto-populates with your own profile name when you create a new record; edit it to assign the record to someone else. Technician values appear in the **Technician Activity** report on the Reports screen.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  A free-text area for supplementary information that does not fit in the `description` field — for example, parts used, safety observations, or handover instructions. Maximum **1,000 characters**. Notes are included in PDF exports but are hidden by default in CSV exports.
+</ParamField>
+
+<ParamField body="photo" type="file">
+  An optional photo attachment to document the condition of the asset before or after maintenance. Accepted formats: **JPEG** and **PNG**. Maximum file size: **10 MB**. Tap the camera icon to capture a new photo, or tap the gallery icon to choose an existing image from your device. One photo may be attached per record.
+</ParamField>
+
+---
+
+## Validation Rules
+
+M-TPM Portal validates your input when you tap **Save** and, for certain fields, in real time as you type. The following rules apply:
+
+<Tabs>
+  <Tab title="Required Field Errors">
+    If any required field (`asset_id`, `event_type`, `description`, `status`, `start_time`) is empty when you tap **Save**, the form scrolls to the first invalid field and highlights it in red with an inline error message. You must resolve all required-field errors before the record can be saved.
+  </Tab>
+  <Tab title="Format Errors">
+    | Field | Rule |
+    |---|---|
+    | `asset_id` | Must match an existing asset in the registry. An unrecognized ID shows the error: *"Asset not found. Scan a tag or check the asset registry."* |
+    | `description` | Exceeding 500 characters locks further input and shows a character-count warning. |
+    | `notes` | Exceeding 1,000 characters locks further input and shows a character-count warning. |
+    | `estimated_completion` | Must be a datetime after `start_time`. An earlier value shows the error: *"Estimated completion must be after start time."* |
+    | `photo` | Files over 10 MB are rejected immediately with the error: *"Photo exceeds the 10 MB limit. Please reduce the file size and try again."* |
+  </Tab>
+  <Tab title="State Transition Errors">
+    Attempting to set `status` to `completed` while `start_time` is in the future returns the error: *"A record cannot be completed before its start time."* Attempting to revert `status` from `completed` without sufficient permissions returns: *"You do not have permission to reopen a completed record."*
+  </Tab>
+</Tabs>

@@ -1,0 +1,129 @@
+---
+title: "AI-Powered OCR Label Auditing for Logistics"
+sidebarTitle: "OCR Label Audit"
+description: "Use M-TPM Portal's Gemini AI integration to automatically scan, read, and verify logistics labels — flagging mismatches and discrepancies in seconds."
+---
+
+M-TPM Portal's OCR Label Audit feature uses Google Gemini AI to visually inspect logistics labels directly from your Android device's camera. Instead of manually cross-referencing label data against your records, the app captures an image, sends it to Gemini for analysis, and returns a structured, field-by-field comparison in seconds. Any discrepancies — whether a mismatched asset ID, an expired date field, or an unreadable condition code — are surfaced immediately so your team can take action before an issue escalates.
+
+## What the Audit Checks
+
+M-TPM Portal's AI auditing examines the following elements on each logistics label:
+
+- **Label text accuracy** — verifies that printed text matches the expected values stored in your asset or maintenance record
+- **Asset ID match** — confirms the label's asset identifier corresponds to the correct registered asset in your system
+- **Date and expiry fields** — checks manufacture dates, expiry dates, and maintenance-due dates for validity and consistency
+- **Condition codes** — reads and validates any printed condition, hazard, or handling codes against known reference values
+
+## When to Use OCR Label Auditing
+
+OCR label auditing is most valuable in the following scenarios:
+
+- **Incoming shipments** — quickly verify that received goods match purchase orders and asset records before accepting delivery
+- **Periodic audits** — run scheduled label checks as part of your broader TPM routine to catch label degradation or data drift over time
+- **Damaged or suspect labels** — when a label is partially obscured, faded, or otherwise difficult to read manually, let Gemini AI extract what it can and flag what it cannot
+
+<Note>
+  AI auditing requires a valid Gemini API key configured in your app settings. See the [API Key Configuration](/configuration/api-key) guide to get started.
+</Note>
+
+## Audit Workflow
+
+Follow these steps each time you run an OCR label audit:
+
+<Steps>
+  <Step title="Open the AI Auditing screen">
+    Navigate to **AI Auditing** from the main Dashboard or from the **Tags** screen. The AI Auditing option appears in the bottom navigation bar and in the Tags screen's action menu.
+  </Step>
+  <Step title="Start a new audit">
+    Tap **Start Audit** to activate the camera viewfinder. The app will request camera permission if this is your first audit session.
+  </Step>
+  <Step title="Point the camera at the label">
+    Align the label within the on-screen guide frame. Hold the device steady — the frame will turn green when the image is in focus and the label is fully visible.
+  </Step>
+  <Step title="Image is sent to Gemini AI">
+    Once captured, the app automatically sends the image to the Google Gemini API along with a structured prompt containing the expected field values from your asset record. This step typically completes within a few seconds depending on your connection speed.
+  </Step>
+  <Step title="Review the AI's findings">
+    The results screen displays each audited field with a colour-coded status:
+    - 🟢 **Green** — field matched successfully
+    - 🔴 **Red** — mismatch detected between the label and the expected value
+    - 🟡 **Yellow** — field could not be read (unreadable or absent on label)
+
+    Review each field carefully before proceeding.
+  </Step>
+  <Step title="Accept or override the result">
+    Tap **Accept** to confirm the audit result as-is, or tap a specific field to **manually override** the AI's reading with your own value. Overrides are logged with a timestamp and your user ID for traceability.
+  </Step>
+  <Step title="Result saved to record">
+    The completed audit — including the confidence score, extracted text, field comparison, and any overrides — is automatically saved to the associated maintenance or asset record. You can review past audits at any time from the asset's detail screen.
+  </Step>
+</Steps>
+
+<Tip>
+  For the best OCR results, audit labels in a well-lit environment. If ambient lighting is poor, tap the **torch icon** in the camera viewfinder to enable the device flashlight. Avoid shadows falling across the label surface, and hold the device parallel to the label to minimise distortion.
+</Tip>
+
+<Warning>
+  Always review AI audit results carefully before taking action on critical assets. While Gemini AI provides high-accuracy text extraction, it is not infallible — damaged labels, unusual fonts, or low-contrast printing can reduce accuracy. Do not rely solely on the AI result for high-stakes decisions without a manual verification step.
+</Warning>
+
+## Audit Result Fields
+
+Each completed audit returns a structured result object. The table below describes every field you will see on the results screen and in the saved audit record.
+
+<ResponseField name="confidence_score" type="number">
+  A value between `0` and `1` indicating how confident the AI is in the overall audit result. A score above `0.85` is considered high confidence. Scores below `0.6` should prompt a manual re-inspection of the label.
+</ResponseField>
+
+<ResponseField name="extracted_text" type="string">
+  The raw text extracted from the label image by Gemini AI, exactly as read — before any field parsing or comparison. Useful for diagnosing unexpected mismatches or verifying what the AI actually saw.
+</ResponseField>
+
+<ResponseField name="matched_fields" type="array">
+  An array of field names where the AI's extracted value matched the expected value from your asset or maintenance record. Each entry includes the field name, extracted value, and expected value for confirmation.
+
+  <Expandable title="Example matched_fields entry">
+    ```json
+    {
+      "field": "asset_id",
+      "extracted": "AST-00482",
+      "expected": "AST-00482",
+      "status": "matched"
+    }
+    ```
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="mismatched_fields" type="array">
+  An array of field names where the AI's extracted value did **not** match the expected value. Each entry includes the field name, what was extracted, what was expected, and the delta for quick comparison. Mismatched fields are highlighted in red on the results screen.
+
+  <Expandable title="Example mismatched_fields entry">
+    ```json
+    {
+      "field": "expiry_date",
+      "extracted": "2024-03-15",
+      "expected": "2025-03-15",
+      "status": "mismatched"
+    }
+    ```
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="unreadable_fields" type="array">
+  An array of field names that Gemini AI could not extract from the label — typically due to physical damage, obscured text, or printing defects. Unreadable fields are highlighted in yellow and should be verified manually before accepting the audit.
+
+  <Expandable title="Example unreadable_fields entry">
+    ```json
+    {
+      "field": "condition_code",
+      "reason": "Text obscured by damage",
+      "status": "unreadable"
+    }
+    ```
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="recommended_action" type="string">
+  A plain-language recommendation generated by the AI based on the overall audit result. Possible values include `"Accept"`, `"Re-inspect label"`, `"Quarantine asset"`, and `"Escalate to supervisor"`. This field is advisory — your team's judgement always takes precedence.
+</ResponseField>

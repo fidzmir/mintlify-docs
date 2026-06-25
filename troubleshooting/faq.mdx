@@ -1,0 +1,103 @@
+---
+title: "M-TPM Portal Frequently Asked Questions"
+sidebarTitle: "FAQ"
+description: "Answers to frequently asked questions about M-TPM Portal — AI features, data storage, offline use, supported devices, and more."
+---
+
+Find quick answers to common questions about M-TPM Portal features and capabilities. This FAQ covers general usage, AI-powered auditing, asset tag scanning, and data management. If you're experiencing a specific error or unexpected behaviour, visit the [Common Issues](/troubleshooting/common-issues) guide for step-by-step fixes.
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What is TPM and how does M-TPM Portal support it?">
+    **Total Productive Maintenance (TPM)** is a company-wide approach to equipment maintenance that aims to eliminate downtime, defects, and accidents by involving all employees — not just the maintenance team — in proactive upkeep. M-TPM Portal brings TPM workflows to Android, allowing technicians to log maintenance activities, inspect asset tags, and track equipment health directly from the shop floor. The app ties together barcode/QR scanning, structured maintenance log forms, and AI-assisted label auditing into a single mobile interface, reducing paper-based processes and human transcription errors.
+  </Accordion>
+
+  <Accordion title="Is M-TPM Portal available on iOS?">
+    M-TPM Portal is currently an **Android-only application** and is not available on iOS or iPadOS. The app targets Android 8.0 (API 26) and above. There are no announced plans for an iOS release at this time. If your organisation requires cross-platform support, speak to your system administrator about alternative access methods or future roadmap updates.
+  </Accordion>
+
+  <Accordion title="Does the app work offline?">
+    Core features — including **maintenance log entry, viewing existing records, and standard barcode/QR tag scanning** — work fully offline. Your data is stored locally on the device and does not require a network connection for day-to-day use. However, the **AI OCR Audit feature requires an active internet connection** to communicate with the Gemini API. Additionally, if your organisation uses a cloud sync backend, records will queue locally and sync automatically once connectivity is restored.
+
+    <Note>
+      Always export or back up critical records before working in areas with no connectivity, to ensure data is safely persisted before any unexpected app interruption.
+    </Note>
+  </Accordion>
+
+  <Accordion title="How is my maintenance data stored?">
+    All maintenance records are stored **locally on your Android device** in the app's private storage directory. This data is isolated from other apps and is not accessible without granting explicit permissions. Records persist across app restarts and OS updates, but will be lost if you uninstall the app or use **Clear Data** in Android settings without first exporting. For long-term retention, use the app's export feature to back up records to Google Drive, email, or your organisation's document management system on a regular schedule.
+  </Accordion>
+</AccordionGroup>
+
+## AI & OCR Auditing
+
+<AccordionGroup>
+  <Accordion title="What is the AI OCR Audit feature?">
+    The **AI OCR Audit** feature uses Google's **Gemini API** to analyse a photo of an asset label using optical character recognition (OCR) and AI-powered vision understanding. Unlike the standard barcode scanner — which requires a machine-readable code — AI OCR Audit can interpret handwritten labels, printed text, partially damaged tags, and non-standard formats. You capture an image of the label, and Gemini returns extracted text and a structured audit result that is automatically associated with the relevant maintenance log entry.
+
+    <Tip>
+      AI OCR Audit is especially useful for legacy equipment with old paper labels, or for spot-checking whether a label's printed information matches what is recorded in the system.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Do I need to pay for AI features?">
+    The AI OCR Audit feature is powered by the **Google Gemini API**, which requires a valid API key obtained from [Google AI Studio](https://aistudio.google.com). Google offers a **free tier** with a generous monthly quota that is sufficient for many small to medium deployments. For high-volume usage, you may need to upgrade to a paid Google Cloud billing plan. The M-TPM Portal app itself does not charge separately for AI features — costs are incurred directly through your Google account based on API usage.
+
+    <Note>
+      Review your usage on the Google AI Studio dashboard regularly. If your organisation runs M-TPM Portal across a large fleet of devices, consider setting API quota limits in Google Cloud Console to prevent unexpected billing.
+    </Note>
+  </Accordion>
+
+  <Accordion title="Is my data sent to Google when I use AI auditing?">
+    Yes. When you trigger an **AI OCR Audit**, the label image you capture is transmitted to **Google's Gemini API** for processing. This means the image (and any text visible in it) leaves your device and is processed on Google's servers. You should ensure this is consistent with your organisation's data privacy policy and any applicable regulations (such as GDPR). Do not use AI OCR Audit to photograph documents, screens, or labels that contain personally identifiable information (PII) unless you have confirmed this is permitted under your data governance policy.
+
+    <Warning>
+      Avoid photographing labels that display sensitive information — such as employee IDs, personal details, or confidential asset identifiers — when using the AI Audit feature, as that data will be sent to Google for processing.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="How accurate is the OCR label reading?">
+    Accuracy depends on **label quality, lighting conditions, and image resolution**. Under good conditions — clear printing, adequate lighting, and the label held steady and in frame — Gemini's OCR is highly accurate for standard alphanumeric text. Handwritten text, very small fonts, metallic or reflective label surfaces, and severe physical damage can reduce accuracy. The app displays the raw AI response so you can review and correct the extracted text before it is committed to a maintenance record. Always verify AI-extracted data, especially for asset IDs and serial numbers.
+  </Accordion>
+</AccordionGroup>
+
+## Asset Tags
+
+<AccordionGroup>
+  <Accordion title="What types of barcodes and QR codes does the scanner support?">
+    The built-in M-TPM Portal scanner supports the following symbologies: **QR Code, Code 128, Code 39, EAN-13, EAN-8, UPC-A, UPC-E, ITF, Codabar, and Data Matrix**. These cover the vast majority of barcodes used in industrial and manufacturing asset tagging. If your site uses a format not on this list — such as PDF417 or Aztec — you can use the **AI OCR Audit** feature to read the label text visually, or contact your system administrator about re-labelling assets with a supported format.
+  </Accordion>
+
+  <Accordion title="Can I add new assets directly from the app?">
+    Yes. You can register a new asset directly from the **Asset Management** screen by tapping the **Add Asset** button. You'll be prompted to scan or manually enter a tag ID, then fill in asset details such as name, location, category, and maintenance schedule. New assets are immediately available for log entries and tag scanning once saved. If your organisation manages assets centrally through a back-end system, newly added assets will sync to that system when the device is next connected.
+  </Accordion>
+
+  <Accordion title='What does "Flagged" tag status mean?'>
+    A **Flagged** status indicates that an asset tag has been identified as requiring attention — this could mean the physical label is damaged or unreadable, the asset has an overdue maintenance action, or an auditor has manually flagged it during an inspection. Flagged assets appear highlighted in the asset list and are included in generated reports so that they can be prioritised for follow-up. You can resolve a flag by completing the required maintenance action or re-issuing a new label and marking the flag as resolved in the app.
+
+    <Tip>
+      Use the AI OCR Audit feature when you encounter a flagged asset with a damaged label — it can often extract enough information from a degraded tag to confirm the asset identity without needing to re-scan a new barcode.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+## Data & Exports
+
+<AccordionGroup>
+  <Accordion title="How do I back up my maintenance records?">
+    Navigate to **Settings → Data & Backup** within M-TPM Portal and tap **Export All Records**. You can then use the Android share sheet to send the exported file to Google Drive, a cloud storage provider, email, or any other app installed on your device. For routine backups, set a reminder to export weekly or after each shift — the app does not currently schedule automatic backups. If your organisation uses a connected back-end, records may also be synced automatically and accessible from the web portal.
+  </Accordion>
+
+  <Accordion title="What export formats are supported?">
+    M-TPM Portal currently supports exporting maintenance records as **CSV (comma-separated values)** and **PDF**. CSV is ideal for importing into spreadsheet tools like Microsoft Excel or Google Sheets, or for ingestion into third-party CMMS (Computerised Maintenance Management System) software. PDF exports are formatted as printable maintenance reports suitable for audits, sign-offs, and archiving. Both formats include all record fields: asset ID, timestamp, technician, action taken, and any notes or AI audit results.
+  </Accordion>
+
+  <Accordion title="How long are records kept on device?">
+    Records are kept on your device **indefinitely** — there is no automatic deletion policy within the app. They persist until you manually delete them, clear the app's data via Android settings, or uninstall the app. If your organisation has a data retention policy (for example, keeping records for a minimum of two or five years), you are responsible for exporting and archiving records to a durable storage system before removing them from the device. It is strongly recommended to export records regularly rather than relying solely on on-device storage.
+
+    <Warning>
+      Uninstalling M-TPM Portal will permanently delete all locally stored records that have not been exported. Always export your data before uninstalling or factory resetting your device.
+    </Warning>
+  </Accordion>
+</AccordionGroup>

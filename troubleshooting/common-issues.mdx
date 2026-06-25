@@ -1,0 +1,151 @@
+---
+title: "Fix Common M-TPM Portal Issues"
+sidebarTitle: "Common Issues"
+description: "Troubleshooting guide for the most common M-TPM Portal problems — camera errors, AI audit failures, sync issues, and installation problems."
+---
+
+This page covers the most frequently encountered issues in M-TPM Portal and how to resolve them quickly. Work through the relevant section below — each issue includes its root cause and a clear, step-by-step fix. If your problem isn't listed here, check the [FAQ](/troubleshooting/faq) or file a bug report through the app's settings menu.
+
+## Permissions & Hardware
+
+<AccordionGroup>
+  <Accordion title="Camera won't open / scanner is blank">
+    **Cause:** The camera permission has not been granted to M-TPM Portal. Android requires explicit user permission before any app can access the device camera.
+
+    **Fix:**
+    1. Open your device's **Android Settings**.
+    2. Navigate to **Apps** (or **Application Manager** on some devices).
+    3. Tap **M-TPM Portal** from the list.
+    4. Tap **Permissions**.
+    5. Find **Camera** and toggle it to **Allow**.
+    6. Return to M-TPM Portal and re-open the scanner.
+
+    <Tip>
+      If the permission toggle is greyed out or managed by your organisation's MDM policy, contact your IT administrator to grant the camera permission remotely.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Tag scan not recognizing labels">
+    **Cause:** The label may be physically damaged, printed at too small a size, poorly lit, or encoded in a format not supported by the built-in scanner.
+
+    **Fix:**
+    - Ensure the area is **well lit** — avoid harsh backlight or glare directly on the label.
+    - **Move the camera closer** (10–30 cm is ideal for most barcodes and QR codes).
+    - Hold the device **steady** for at least one second to allow autofocus to lock.
+    - For labels that are torn, faded, or partially obscured, switch to the **AI OCR Audit** feature, which can interpret damaged or non-standard labels using Gemini's vision model.
+
+    <Note>
+      The standard scanner supports QR codes, Code 128, Code 39, EAN-13, EAN-8, UPC-A, and Data Matrix formats. If your site uses a different barcode symbology, use AI OCR Audit or contact your system administrator to re-encode the labels.
+    </Note>
+  </Accordion>
+</AccordionGroup>
+
+## AI Audit Issues
+
+<AccordionGroup>
+  <Accordion title='AI Audit fails with "API key invalid" error'>
+    **Cause:** The `GEMINI_API_KEY` in your `.env` file is missing, incorrectly formatted, or has been revoked.
+
+    **Fix:**
+    1. Open your project's **`.env`** file (located in the repository root).
+    2. Confirm that the following line is present and contains a valid key:
+       ```
+       GEMINI_API_KEY=your_actual_api_key_here
+       ```
+    3. Verify the key is active by signing in at [aistudio.google.com](https://aistudio.google.com) and checking **API Keys** under your project settings.
+    4. If the key has expired or been deleted, generate a new one and paste it into `.env`.
+    5. **Rebuild and reinstall the app** so the new key is bundled into the build.
+
+    <Warning>
+      Never commit your `.env` file to version control. Ensure `.env` is listed in your `.gitignore` to prevent accidental API key exposure.
+    </Warning>
+  </Accordion>
+
+  <Accordion title='AI Audit fails with "Network error"'>
+    **Cause:** The device has no active internet connection, or the Gemini API endpoint is temporarily unreachable.
+
+    **Fix:**
+    1. Open your device's browser and attempt to load any webpage to confirm internet connectivity.
+    2. Switch between **Wi-Fi and mobile data** to rule out a network-specific issue.
+    3. If you are on a corporate network, check with your IT team whether outbound traffic to `generativelanguage.googleapis.com` is allowed.
+    4. Wait a few minutes and retry — Google occasionally performs brief API maintenance windows.
+
+    <Note>
+      The AI OCR Audit feature requires an active internet connection at all times. It cannot be used offline. For environments without reliable connectivity, rely on the standard barcode scanner for tag recognition.
+    </Note>
+  </Accordion>
+</AccordionGroup>
+
+## Data & Storage
+
+<AccordionGroup>
+  <Accordion title="Maintenance records not saving">
+    **Cause:** The storage permission has been denied, or the device's available storage is insufficient to write new records.
+
+    **Fix:**
+    1. Go to **Android Settings → Apps → M-TPM Portal → Permissions** and ensure **Storage** (or **Files and Media**) is set to **Allow**.
+    2. Check your device storage: open **Settings → Storage** and confirm you have at least **100 MB** of free space. Delete unused files or apps if necessary.
+    3. Return to M-TPM Portal and attempt to save the record again.
+    4. If the issue persists, force-stop the app and restart it before retrying.
+
+    <Tip>
+      Keep at least 100 MB of free storage as a routine baseline. Maintenance logs include photos and timestamps, so heavily used installations can accumulate significant data over time.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Reports export not appearing in file manager">
+    **Cause:** The destination of exported files varies by Android version. On Android 10 and later, apps are restricted from writing directly to shared storage without user confirmation, so exported files may land in app-specific directories rather than the Downloads folder.
+
+    **Fix:**
+    - Immediately after tapping **Export**, use the **Android share sheet** that appears to send the file directly to your preferred destination (e.g., Gmail, Google Drive, Microsoft Teams).
+    - If you dismissed the share sheet, navigate to **Android Settings → Apps → M-TPM Portal → Storage → Open Files** to locate the export directory.
+    - On Android 9 and below, check the **Downloads** folder in your file manager.
+
+    <Tip>
+      The most reliable workflow is to share the export directly to Google Drive or email immediately after generation — this avoids file-location ambiguity across Android versions entirely.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+## App Stability
+
+<AccordionGroup>
+  <Accordion title="App crashes on startup">
+    **Cause:** Corrupted app data or cache from a previous install, or the device is running an Android version below the minimum supported level (Android 8.0 / API 26).
+
+    **Fix:**
+    1. Go to **Android Settings → Apps → M-TPM Portal → Storage**.
+    2. Tap **Clear Cache**, then relaunch the app.
+    3. If the crash persists, tap **Clear Data** (note: this removes locally stored records, so export any data first if possible).
+    4. Confirm your device is running **Android 8.0 (Oreo) or higher**. Go to **Settings → About Phone → Android Version** to check.
+    5. If your Android version is below 8.0, M-TPM Portal is not supported on your device.
+
+    <Warning>
+      **Clear Data** will delete all locally stored maintenance records that have not been exported or backed up. Always export your data before clearing app data.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+## Developer & Build Issues
+
+<AccordionGroup>
+  <Accordion title='Build fails with "signingConfig" error'>
+    **Cause:** The `signingConfig` line in `app/build.gradle.kts` references a signing configuration named `"debugConfig"` that is defined only in CI/CD environments. When building locally without that configuration present, Gradle throws a resolution error.
+
+    **Fix:**
+    1. Open **`app/build.gradle.kts`** in your editor.
+    2. Locate the following line inside the `debug` build type block:
+       ```kotlin
+       signingConfig = signingConfigs.getByName("debugConfig")
+       ```
+    3. **Remove or comment out that line** for your local debug build:
+       ```kotlin
+       // signingConfig = signingConfigs.getByName("debugConfig")
+       ```
+    4. Save the file and re-run your Gradle build.
+
+    <Note>
+      This line is intentional for CI/CD pipelines where the `debugConfig` signing keystore is injected as a secret. Do not commit the removal of this line back to your main branch — keep it as a local-only change.
+    </Note>
+  </Accordion>
+</AccordionGroup>

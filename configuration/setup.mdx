@@ -1,0 +1,65 @@
+---
+title: "Configure M-TPM Portal for Your Environment"
+sidebarTitle: "Setup"
+description: "Set up M-TPM Portal with the right configuration for your team — including environment variables, app permissions, and display preferences."
+---
+
+M-TPM Portal is configured at two distinct levels: **build-time configuration** via a `.env` file at the project root, and **in-app settings** accessible from the Dashboard. Build-time configuration controls infrastructure-level values like API keys and service endpoints that must be available before the app runs. In-app settings let individual users personalise their experience — adjusting themes, notification preferences, and AI auditing behaviour — without requiring a rebuild. Understanding both layers ensures your team gets the most out of M-TPM Portal from day one.
+
+## Build-Time Configuration
+
+Build-time configuration is handled through a `.env` file placed in the **project root directory**. These values are baked into the app at compile time and are not adjustable by end users. You must set them before building or running the application.
+
+### The `.env` File
+
+Create a file named `.env` in the root of your M-TPM Portal project. This file is read automatically at build time. The table below describes every supported variable.
+
+| Variable | Required | Description |
+|---|---|---|
+| `GEMINI_API_KEY` | ✅ Yes (for AI features) | Your Google Gemini API key, used for AI-powered OCR label auditing and visual inspection. |
+| `BASE_API_URL` | Optional | The base URL for your backend services, if you are running a self-hosted instance. |
+
+A minimal `.env` file for enabling AI features looks like this:
+
+```dotenv
+# Required for AI-powered OCR label auditing
+GEMINI_API_KEY=your_api_key_here
+```
+
+Replace `your_api_key_here` with the actual key you generate in Google AI Studio. If this value is absent or invalid, AI auditing will be unavailable, but all other app features remain fully functional.
+
+<Note>
+  For step-by-step instructions on obtaining and adding your Gemini API key, see [Set Up Your Gemini API Key](/configuration/api-key). To review what Android permissions the app requires and how to manage them, see [Android Permissions](/configuration/permissions).
+</Note>
+
+---
+
+## In-App Settings
+
+After the app is installed and running, you can fine-tune your experience through the **Settings** screen. Access it by navigating to **Dashboard → ⚙ Settings** from the bottom navigation bar or the top-right menu icon.
+
+### Display
+
+Control how information is presented across the app.
+
+- **Theme** — Switch between **Light** and **Dark** mode. The app defaults to your device's system theme.
+- **Date Format** — Choose how dates are displayed throughout logs and reports (e.g. `DD/MM/YYYY`, `MM/DD/YYYY`, or `YYYY-MM-DD`).
+- **Language** — Select your preferred display language. Available options depend on the languages bundled with your installation.
+
+### Notifications
+
+Keep your maintenance team on schedule with configurable reminder alerts.
+
+- **Enable Maintenance Reminders** — Toggle push notifications for upcoming and overdue maintenance tasks on or off.
+- **Reminder Lead Time** — Set how far in advance (e.g. 1 hour, 1 day) you want to be notified before a scheduled maintenance event.
+
+### AI Features
+
+Manage the behaviour of M-TPM Portal's AI-powered auditing capabilities.
+
+- **Enable AI Auditing** — Turn the OCR label auditing feature on or off. Disabling this prevents any calls to the Gemini API.
+- **Audit Confidence Threshold** — Set the minimum confidence score (0–100%) an AI audit result must reach before it is accepted automatically. Results below the threshold are flagged for manual review.
+
+<Note>
+  AI Features settings are only active when a valid `GEMINI_API_KEY` is present in your `.env` file. If no key is configured, the AI Features section will be visible but all controls will be disabled. See [Set Up Your Gemini API Key](/configuration/api-key) for details.
+</Note>

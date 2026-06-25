@@ -1,17 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "M-TPM Portal",
+  "projectType": "saas",
+  "projectName": "M-TPM Portal",
+  "projectDescription": "A mobile Android app for corporate Total Productive Maintenance (TPM) management, providing active asset/tag control, maintenance data entry, and AI-powered OCR label auditing.",
   "theme": "almond",
-  "colors": {
-    "primary": "#5c646c",
-    "light": "#cce1ef",
-    "dark": "#22272d"
-  },
-  "logo": {
-    "light": "https://media.brand.dev/f0d585f7-cefa-438b-894a-2dea1e841a07.svg",
-    "dark": "https://media.brand.dev/f0d585f7-cefa-438b-894a-2dea1e841a07.svg"
-  },
-  "favicon": "https://media.brand.dev/2457c36e-9b1c-469a-853e-ba20af54293f.png",
+  "primaryColor": "#5c646c",
+  "lightColor": "#cce1ef",
+  "darkColor": "#22272d",
   "navigation": {
     "tabs": [
       {
@@ -81,5 +75,19 @@
         ]
       }
     ]
-  }
+  },
+  "keyFeatures": [
+    "Maintenance log entry and tracking",
+    "Active asset/tag control and monitoring",
+    "AI-powered OCR label auditing via Gemini API",
+    "Real-time production maintenance data visibility",
+    "Corporate TPM (Total Productive Maintenance) management",
+    "Logistics visual inspection and audit reporting"
+  ],
+  "publicApiSurface": [
+    "Gemini AI API (GEMINI_API_KEY) — powers OCR label auditing and AI analysis",
+    "Maintenance log submission",
+    "Asset tag scan and control",
+    "Maintenance history and reporting views"
+  ]
 }

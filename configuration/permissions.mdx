@@ -1,0 +1,109 @@
+---
+title: "Android Permissions Required by M-TPM Portal"
+sidebarTitle: "Permissions"
+description: "Review the Android permissions M-TPM Portal requests, why each is needed, and how to grant or revoke them from your device settings."
+---
+
+M-TPM Portal requests only the permissions it genuinely needs to deliver its core functionality — no broad or unnecessary access is ever asked for. Rather than requesting everything at install time, the app follows Android best practice by asking for each permission **at the moment it is first needed**, so you always know exactly why a permission is being requested. This page describes each permission, what feature it supports, and how to manage it on your device.
+
+---
+
+## Permissions Overview
+
+The table below summarises every permission M-TPM Portal may request, together with the features that depend on it.
+
+| Permission | Required / Optional | Why It's Needed |
+|---|---|---|
+| **Camera** | Required (for scanning & AI features) | Scanning asset barcodes and QR codes; capturing images for OCR label auditing and visual inspection via the Gemini API. |
+| **Storage / Media** | Required (for reports & attachments) | Saving exported maintenance reports to device storage; attaching photos from your gallery to maintenance records. |
+| **Internet** | Required (for AI auditing) | Sending OCR audit requests to the Gemini API and communicating with any configured backend services. |
+| **Notifications** | Optional | Displaying push notification reminders for scheduled and overdue maintenance tasks. |
+
+### Camera
+
+The Camera permission enables two critical workflows in M-TPM Portal:
+
+- **Asset tag scanning** — Point your camera at a barcode or QR code on a physical asset to instantly look it up or log maintenance against it.
+- **AI OCR auditing** — Capture a photo of an asset label; the image is sent to the Gemini API for automated inspection and data extraction.
+
+### Storage / Media
+
+The Storage permission (or granular media permissions on Android 13+) allows M-TPM Portal to:
+
+- Write generated PDF or CSV maintenance reports to your device's **Downloads** folder.
+- Read photos from your gallery when you choose to attach an existing image to a maintenance record rather than taking a new one.
+
+### Internet
+
+The Internet permission is a standard Android permission that is granted automatically (no runtime prompt). It is needed for:
+
+- Calling the **Gemini API** for all AI-powered auditing operations.
+- Connecting to any self-hosted backend service configured via `BASE_API_URL` in your `.env` file.
+
+### Notifications
+
+The Notifications permission is entirely optional. If you grant it, M-TPM Portal can send you:
+
+- **Scheduled maintenance reminders** before a task is due.
+- **Overdue task alerts** when a maintenance item has passed its deadline without completion.
+
+You can adjust the types of notifications you receive at any time from the in-app Settings screen under **Notifications**.
+
+---
+
+## Granting Permissions
+
+### Automatic Prompts (Recommended)
+
+The simplest way to grant permissions is to let the app prompt you. The first time you use a feature that requires a permission, Android displays a system dialog asking you to allow or deny access. Grant the permission there and you're done — the app will remember your choice.
+
+### Manual Grant via Device Settings
+
+If you previously denied a permission and need to grant it later, follow these steps:
+
+<Steps>
+  <Step title="Open your device Settings">
+    On your Android device, open the **Settings** app.
+  </Step>
+  <Step title="Navigate to Apps">
+    Tap **Apps** (sometimes labelled **Application Manager** or **App Management**, depending on your device manufacturer).
+  </Step>
+  <Step title="Find M-TPM Portal">
+    Scroll through the app list and tap **M-TPM Portal**.
+  </Step>
+  <Step title="Open Permissions">
+    Tap **Permissions** to view the full list of permissions the app has requested.
+  </Step>
+  <Step title="Toggle the permission on">
+    Tap the permission you want to grant (e.g. **Camera**) and select **Allow** or **Allow only while using the app**, as appropriate for your security preference.
+  </Step>
+</Steps>
+
+---
+
+## Revoking Permissions
+
+You can revoke any permission at any time using the same **Settings → Apps → M-TPM Portal → Permissions** path described above. Tap a permission and select **Deny**. The table below shows the impact of revoking each permission.
+
+| Revoked Permission | Impact |
+|---|---|
+| **Camera** | Asset tag scanning stops working. AI OCR auditing is disabled. You can still log maintenance manually by entering asset IDs by hand. |
+| **Storage / Media** | Report export fails. You cannot attach gallery photos to records. Photos taken within the app are not saved to your device. |
+| **Notifications** | Maintenance reminder and overdue task alerts stop. All in-app functionality remains unaffected. |
+
+<Warning>
+  Revoking the **Camera** permission disables both asset tag scanning **and** AI label auditing simultaneously, because both features share the same camera access. If your team relies on either workflow, ensure Camera permission remains granted on all devices running M-TPM Portal.
+</Warning>
+
+---
+
+## Android 13+ Granular Media Permissions
+
+<Note>
+  On **Android 13 (API level 33) and above**, Google replaced the broad `READ_EXTERNAL_STORAGE` permission with more granular alternatives. M-TPM Portal targets these new permissions appropriately:
+
+  - **`READ_MEDIA_IMAGES`** — for reading photos from your gallery.
+  - **`READ_MEDIA_VIDEO`** — only requested if video attachments are supported in your build.
+
+  If your device runs Android 13 or later, you will see these specific permission prompts instead of a single "Storage" request. Granting `READ_MEDIA_IMAGES` is sufficient for all current M-TPM Portal photo attachment and export features.
+</Note>
